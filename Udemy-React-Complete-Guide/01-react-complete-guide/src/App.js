@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person.js'
-import Radium, { StyleRoot } from 'radium';
+// import Radium, { StyleRoot } from 'radium';
 
 // class App extends Component {
 
@@ -95,10 +95,10 @@ class App extends Component {
       border: '1px solid blue',
       padding: '8px',
       cursor: 'pointer',
-      ':hover': {
-          backgroundColor: 'lightgreen',
-          color: 'black',
-      }
+      // ':hover': {
+      //     backgroundColor: 'lightgreen',
+      //     color: 'black',
+      // }
     }
 
     let persons = null;
@@ -122,9 +122,9 @@ class App extends Component {
       );
 
       style.backgroundColor = 'red';
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-      }
+      // style[':hover'] = {
+      //   backgroundColor: 'salmon',
+      // }
     }
           // <Person 
           //   name={this.state.persons[0].name} 
@@ -146,7 +146,10 @@ class App extends Component {
 
 
     return (
-      <StyleRoot>
+      // if using mediaqueres or keyframes, also import StyleRoot from Radium and wrap your whole application in it
+      // not neccessary if you're just using psuedo-selectors - in that case just download and import radium, then wrap your exported component in the Radium function
+      // both of these allow you to apply scoped styles, pseudo-selectors, media queries etc. to components
+      // <StyleRoot>
       <div className="App">
       <h1>Hi, Im a React app</h1>
       <p className={classes.join(' ')}>This is really working!</p>
@@ -155,8 +158,10 @@ class App extends Component {
         onClick={this.togglePersonsHandler}>Switch Name</button>
         {persons}
       </div>
-      </StyleRoot>    );
+      // </StyleRoot>    
+      );
   }
 }
 
-export default Radium(App);
+// export default Radium(App);
+export default App;
