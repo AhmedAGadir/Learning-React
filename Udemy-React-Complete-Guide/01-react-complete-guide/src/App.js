@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person.js'
+import Radium, { StyleRoot } from 'radium';
 
 // class App extends Component {
 
@@ -88,11 +89,16 @@ class App extends Component {
   render() {
     // this method of inline styling allows you to scope the styling to individual elements
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+          backgroundColor: 'lightgreen',
+          color: 'black',
+      }
     }
 
     let persons = null;
@@ -113,7 +119,12 @@ class App extends Component {
               key={person.id} />
           })}       
         </div>
-      )
+      );
+
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+      }
     }
           // <Person 
           //   name={this.state.persons[0].name} 
@@ -129,17 +140,23 @@ class App extends Component {
 
     // as react doesnt allow block statements (like if..else statements) inside JSX 
 
+    let classes = [];
+    if (this.state.persons.length <= 2) classes.push('red');
+    if (this.state.persons.length <= 1) classes.push('bold');
+
+
     return (
+      <StyleRoot>
       <div className="App">
       <h1>Hi, Im a React app</h1>
-      <p>This is really working!</p>
+      <p className={classes.join(' ')}>This is really working!</p>
       <button
         style={style} 
         onClick={this.togglePersonsHandler}>Switch Name</button>
         {persons}
       </div>
-    );
+      </StyleRoot>    );
   }
 }
 
-export default App;
+export default Radium(App);
