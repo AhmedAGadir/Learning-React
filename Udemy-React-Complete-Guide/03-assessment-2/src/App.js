@@ -10,10 +10,10 @@ class App extends Component {
   }
 
   updateHandler = e => {
-    this.setState({input: e.target.value,})
+    this.setState({input: e.target.value})
   }
 
-  removeHandler = (e, ind) => {
+  removeHandler = ind => {
     let inputArr = this.state.input.split('');
     inputArr.splice(ind, 1);
     this.setState({input: inputArr.join('')})
@@ -26,7 +26,7 @@ class App extends Component {
       chars = (
         <div>
           {this.state.input.split('').map((char, ind) => {
-            return <CharComponent char={char} click={e => this.removeHandler(e, ind)}/>
+            return <CharComponent char={char} click={() => this.removeHandler(ind)} key={ind}/>
           })}
         </div>
       )
