@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Person from './Person/Person.js'
 // import Radium, { StyleRoot } from 'radium';
+// import ErrorBoundary from './ErrorBoundary/ErrorBoundary.js';
 
 // class App extends Component {
 
@@ -108,7 +109,9 @@ class App extends Component {
       persons = (
         <div>
           {this.state.persons.map((person, ind) => {
-            return <Person 
+            return 
+            //<ErrorBoundary key={person.id}>
+            <Person 
               click={() => this.deletePersonHandler(ind)}
               changed={e => this.nameChangedHandler(e, person.id)}
               name={person.name} 
@@ -119,6 +122,10 @@ class App extends Component {
               // if the key property is missing, react will re-render the whole list, which can be v. inefficient for long lists (especially if only one or two list items have changed).
               // in real data the chances are high that the data will give each element a unique ID.
               key={person.id} />
+              //</ErrorBoundary>
+              //ErrorBoundary is a higher order component => its a component which wraps another component, with the goal of handling any errors that component might throw
+              // note how the key property has moved to error boundary -> this is simply because the key property has to be on the outermost element of the list being rendered.
+              //only use error boundaries where they make sense.
           })}       
         </div>
       );
