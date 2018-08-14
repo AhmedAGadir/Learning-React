@@ -8,3 +8,9 @@
 }
 
 /* create react app also includes automatic prefixing*/
+
+@media (min-width: 500px) {
+	.Person {
+		width: 450px;
+	}
+}

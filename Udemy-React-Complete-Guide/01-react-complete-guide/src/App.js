@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person.js'
 // import Radium, { StyleRoot } from 'radium';
 
@@ -88,18 +88,20 @@ class App extends Component {
   // the bind way is more efficient than the embedded arrow function way
   render() {
     // this method of inline styling allows you to scope the styling to individual elements
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
+    // const style = {
+    //   backgroundColor: 'green',
+    //   color: 'white',
+    //   font: 'inherit',
+    //   border: '1px solid blue',
+    //   padding: '8px',
+    //   cursor: 'pointer',
       // ':hover': {
       //     backgroundColor: 'lightgreen',
       //     color: 'black',
       // }
-    }
+    //}
+
+    let btnClass = '';
 
     let persons = null;
     if (this.state.showPersons) {
@@ -121,10 +123,11 @@ class App extends Component {
         </div>
       );
 
-      style.backgroundColor = 'red';
+      // style.backgroundColor = 'red';
       // style[':hover'] = {
       //   backgroundColor: 'salmon',
       // }
+      btnClass = classes.Red;
     }
           // <Person 
           //   name={this.state.persons[0].name} 
@@ -140,9 +143,9 @@ class App extends Component {
 
     // as react doesnt allow block statements (like if..else statements) inside JSX 
 
-    let classes = [];
-    if (this.state.persons.length <= 2) classes.push('red');
-    if (this.state.persons.length <= 1) classes.push('bold');
+    let assignedClasses = [];
+    if (this.state.persons.length <= 2) assignedClasses.push(classes.red) //classes.push('red');
+    if (this.state.persons.length <= 1) assignedClasses.push(classes.bold) //classes.push('bold');
 
 
     return (
@@ -150,11 +153,12 @@ class App extends Component {
       // not neccessary if you're just using psuedo-selectors - in that case just download and import radium, then wrap your exported component in the Radium function
       // both of these allow you to apply scoped styles, pseudo-selectors, media queries etc. to components
       // <StyleRoot>
-      <div className="App">
+      <div className={classes.App}>
       <h1>Hi, Im a React app</h1>
-      <p className={classes.join(' ')}>This is really working!</p>
+      <p className={assignedClasses.join(' ')}>This is really working!</p>
       <button
-        style={style} 
+        // style={style} 
+        className={btnClass}
         onClick={this.togglePersonsHandler}>Switch Name</button>
         {persons}
       </div>
