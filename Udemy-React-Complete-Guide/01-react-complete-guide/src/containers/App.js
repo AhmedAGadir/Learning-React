@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import Person from './Person/Person.js'
+import Persons from '../components/Persons/Persons.js';
+import Cockpit from '../components/Cockpit/Cockpit.js';
 // import Radium, { StyleRoot } from 'radium';
 // import ErrorBoundary from './ErrorBoundary/ErrorBoundary.js';
+
+
+// why should you use functional components as often as possible?
+// because these components have a narrow focus and a clear responsibility - they are about rendering something.
+// they dont manage state 
+
+// containers manage state, but having too many containers will quickly make things confusing
+
 
 // class App extends Component {
 
@@ -22,7 +31,35 @@ import Person from './Person/Person.js'
 // }
 
 
+
+// containers shouldnt be involved with the UI components too much, they should focus on managing the state and let individual components manage the JSX/JavaScript.
 class App extends Component {
+
+  // this way of creating classes is old, ES7 allows us to omit the constructor property and replace the e.g. (this.foo = foobar) syntax with (foo = foobar)
+  constructor (props) {
+    super(props)
+    // inisde of the constructor we can use props, everywhere else we'd have to use this.props
+    console.log('[App.js] Inside Constructor')
+    // this.state = {} //old way of initializing state
+  }
+
+  componentWillMount() {
+    console.log('[App.js] Inside componentWillMount()')
+  }
+ 
+  componentDidMount() {
+    console.log('[App.js] Inside componentDidMount()')    
+  }
+
+  // componentWillReceiveProps(nextProps) {
+  //   console.log('[UPDATE App.js] Inside componentWillReceiveProps() ', nextProps)
+  // }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('[UPDATE App.js] Inside shouldComponentUpdate() ', nextProps, nextState)
+  //   return true;
+  // }
+
 // Only class-based components can define and use state
 // regardless, you should use function components as much as possible as over-using state makes an app difficult to manage
 // state is a reserved word
@@ -37,7 +74,7 @@ class App extends Component {
     showPersons: false,
   } 
 
-  // using ES6 arrow functions allows us to use this.switchNameHandler in our class
+  // using ES6 arrow functions allows us to use the this keyword inside our function easily. ===> arrow functions make it so that whatever the this value is in the lexical scope that the function was defined, has the same this value inside the function -- see YDKJS
   // switchNameHandler = (newName) => {
     // console.log(123)
     // DONT DO THIS: this.state.persons[0].name = 'Maximilian';
@@ -87,7 +124,10 @@ class App extends Component {
 
   //you can pass methods also as props, so that you can call a method which might change the state, in another component which normally doesnt have access or the ability to change the state
   // the bind way is more efficient than the embedded arrow function way
+  // render is the only mandatory function that must be defined inside of a class based component, as react needs to know what to render to the DOM
   render() {
+        console.log('[App.js] Inside render()')
+
     // this method of inline styling allows you to scope the styling to individual elements
     // const style = {
     //   backgroundColor: 'green',
@@ -102,39 +142,17 @@ class App extends Component {
       // }
     //}
 
-    let btnClass = '';
-
     let persons = null;
     if (this.state.showPersons) {
-      persons = (
-        <div>
-          {this.state.persons.map((person, ind) => {
-            return 
-            //<ErrorBoundary key={person.id}>
-            <Person 
-              click={() => this.deletePersonHandler(ind)}
-              changed={e => this.nameChangedHandler(e, person.id)}
-              name={person.name} 
-              age={person.age}
-              // the key prop is an important property we should add when rendering list of data
-              // every element should have a unqiue id so that React can compare elements of the future with elements of the past when re-rendering the DOM, and only re-render elements that have changed
-              // dont use the index of the element in the list, as when the list is updated indexes may change.
-              // if the key property is missing, react will re-render the whole list, which can be v. inefficient for long lists (especially if only one or two list items have changed).
-              // in real data the chances are high that the data will give each element a unique ID.
-              key={person.id} />
-              //</ErrorBoundary>
-              //ErrorBoundary is a higher order component => its a component which wraps another component, with the goal of handling any errors that component might throw
-              // note how the key property has moved to error boundary -> this is simply because the key property has to be on the outermost element of the list being rendered.
-              //only use error boundaries where they make sense.
-          })}       
-        </div>
-      );
+      persons = <Persons 
+              persons={this.state.persons} 
+              clicked={this.deletePersonHandler} 
+              changed={this.nameChangedHandler}/>      
 
       // style.backgroundColor = 'red';
       // style[':hover'] = {
       //   backgroundColor: 'salmon',
       // }
-      btnClass = classes.Red;
     }
           // <Person 
           //   name={this.state.persons[0].name} 
@@ -150,23 +168,19 @@ class App extends Component {
 
     // as react doesnt allow block statements (like if..else statements) inside JSX 
 
-    let assignedClasses = [];
-    if (this.state.persons.length <= 2) assignedClasses.push(classes.red) //classes.push('red');
-    if (this.state.persons.length <= 1) assignedClasses.push(classes.bold) //classes.push('bold');
-
-
     return (
+      //our App class also has access to a props property that it gets from React.Component
+
       // if using mediaqueres or keyframes, also import StyleRoot from Radium and wrap your whole application in it
       // not neccessary if you're just using psuedo-selectors - in that case just download and import radium, then wrap your exported component in the Radium function
       // both of these allow you to apply scoped styles, pseudo-selectors, media queries etc. to components
       // <StyleRoot>
       <div className={classes.App}>
-      <h1>Hi, Im a React app</h1>
-      <p className={assignedClasses.join(' ')}>This is really working!</p>
-      <button
-        // style={style} 
-        className={btnClass}
-        onClick={this.togglePersonsHandler}>Switch Name</button>
+        <Cockpit
+          title={this.props.title} 
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          clicked={this.togglePersonsHandler}/>
         {persons}
       </div>
       // </StyleRoot>    
