@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 import Person from './Person/Person';
 
 
-Component Lifecycle
-1) constructor(props)
-2) componentWillMount()
-3) render()
-4) 
+// ========== COMPONENT LIFECYCLE =========
+// see console to see the lifecycle in action
+// 1) constructor(props)
+// 2) componentWillMount()
+// 3) render()
+// 4) render child components
+// 5) componentDidMount
+// -- --
+//   componentWillReceiveProps(nextProps)
+//   shouldComponentUpdate(nextProps, nextState)
+//   componentWillUpdate(nextProps, nextState) 
+//   componentDidUpdate(nextProps, nextState)
+ 
 
 // const persons = props => props.persons.map((person, ind) => {
 //             return /*<ErrorBoundary key={person.id}>*/ (<Person 
@@ -34,6 +42,8 @@ Component Lifecycle
 // if you have a use-case where you have a component which receives a lot of props, but it should re-render only if one of these props changes, 
 // then its a good idea to turn the component into a stateful component, and use shouldComponentUpdate to only change the relevant property (as is done below);
 class Persons extends Component  {
+  // set up state here
+  // dont cause side effects
   constructor (props) {
     super(props)
     console.log('[Persons.js] Inside Constructor');
@@ -42,11 +52,14 @@ class Persons extends Component  {
     }
   }
 
+  // update state here
+  // dont cause side effects
   componentWillMount() {
     console.log('[Persons.js] Inside componentWillMount()')
   }
 
-
+  // here you can cause side effects - e.g. making ajax calls 
+  // dont change state here, it will cause a re-render (unless thats what you're looking to do - like the clock example in the react documentation tutorials)
   componentDidMount() {
     console.log('[Persons.js] Inside componentDidMount()')    
   }
