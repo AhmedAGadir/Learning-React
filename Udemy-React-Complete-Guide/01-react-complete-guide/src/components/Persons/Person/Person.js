@@ -47,6 +47,7 @@ class Person extends Component {
   //   return true;
   // }
 
+
   render() {
     console.log('[Person.js] Inside render()')   
 		return (
@@ -56,6 +57,14 @@ class Person extends Component {
 				<input type="text" onChange={this.props.changed} value={this.props.name}/>
 			</div>
 		)
+
+		 // notice below how React16 allows you to return ARRAYS of JSX elements
+  // ...howeverr reach array item needs to have a key#
+		// return [
+		// 		<p key="dfs" onClick={this.props.click}>Im {this.props.name} and I am {this.props.age} years old!</p>,
+		// 		<p key="hfg">{this.props.children}</p>,
+		// 		<input key="yty" type="text" onChange={this.props.changed} value={this.props.name}/>
+		// ]
 	}
 }
 

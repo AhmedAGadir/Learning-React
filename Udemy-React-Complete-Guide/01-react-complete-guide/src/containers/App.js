@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+//only use PureComponent when you know that updates may not be required
+// PureComponent is the same as Component, it just also does a shallowcheck automatically when changes are made, and only updates if props/state has changed
 import classes from './App.css';
 import Persons from '../components/Persons/Persons.js';
 import Cockpit from '../components/Cockpit/Cockpit.js';
@@ -33,7 +35,7 @@ import Cockpit from '../components/Cockpit/Cockpit.js';
 
 
 // containers shouldnt be involved with the UI components too much, they should focus on managing the state and let individual components manage the JSX/JavaScript.
-class App extends Component {
+class App extends PureComponent {
 
   // this way of creating classes is old, ES7 allows us to omit the constructor property and replace the e.g. (this.foo = foobar) syntax with (foo = foobar)
   constructor (props) {
@@ -51,14 +53,26 @@ class App extends Component {
     console.log('[App.js] Inside componentDidMount()')    
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('[UPDATE App.js] Inside componentWillReceiveProps() ', nextProps)
-  // }
+  // the reason we use shouldComponentUpdate is because, whenever a change is made to the state or props of a component, the render methods of the whole tree are called ....
+  // ... this doesnt mean that the actual DOM is re-rendered again, its not. but nonetheless the render methods are called - even if nothing changes! ...
+  // ... this can be really inefficient with large applications where render methods are being called for loads of elements, although nothings changing
+  // ... for this reason we use shouldComponentUpdate
 
+  // if we chose to inherit from PureComponent, the shallow check performed below is done automatically and so we dont need to do it
+  // it will look through all the properites in the props/state, and only continue updating if it detects changes 
   // shouldComponentUpdate(nextProps, nextState) {
   //   console.log('[UPDATE App.js] Inside shouldComponentUpdate() ', nextProps, nextState)
-  //   return true;
+  //   return nextState.persons !== this.state.persons ||
+  //   nextState.showPersons !== this.state.showPersons;
   // }
+
+  componentWillUpdate = (nextProps, nextState) => {
+    console.log('[UPDATE App.js] Inside componentWillUpdate() ', nextProps, nextState)
+  }
+
+  componentDidUpdate(nextProps, nextState) {
+     console.log('[UPDATE App.js] Inside componentDidUpdate() ', nextProps, nextState)   
+  }
 
 // Only class-based components can define and use state
 // regardless, you should use function components as much as possible as over-using state makes an app difficult to manage
@@ -122,7 +136,11 @@ class App extends Component {
   }
   //in JSX, use an uppercase C in onClick 
 
-  //you can pass methods also as props, so that you can call a method which might change the state, in another component which normally doesnt have access or the ability to change the state
+  // render() doesnt immediately render JSX to the main DOM...
+  // ... render() compares virtual DOMs - it has an old virutal DOM and a re-rendered virtual DOM.
+  // ... if there are differences -> THEN React updates only the sections of the DOM that have changed.
+  // ... this is useful because accessing the real DOM is much slower than accessing the virtual ones
+  // you can pass methods also as props, so that you can call a method which might change the state, in another component which normally doesnt have access or the ability to change the state
   // the bind way is more efficient than the embedded arrow function way
   // render is the only mandatory function that must be defined inside of a class based component, as react needs to know what to render to the DOM
   render() {
@@ -175,7 +193,9 @@ class App extends Component {
       // not neccessary if you're just using psuedo-selectors - in that case just download and import radium, then wrap your exported component in the Radium function
       // both of these allow you to apply scoped styles, pseudo-selectors, media queries etc. to components
       // <StyleRoot>
+      // the first buttons sets showPersons to always be true (no toggling), the second button toggles showPersons
       <div className={classes.App}>
+      <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
         <Cockpit
           title={this.props.title} 
           showPersons={this.state.showPersons}

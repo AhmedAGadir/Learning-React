@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Person from './Person/Person';
 
 
@@ -9,10 +9,12 @@ import Person from './Person/Person';
 // 3) render()
 // 4) render child components
 // 5) componentDidMount
-// -- --
+// -- UPDATE --
 //   componentWillReceiveProps(nextProps)
 //   shouldComponentUpdate(nextProps, nextState)
-//   componentWillUpdate(nextProps, nextState) 
+//   componentWillUpdate(nextProps, nextState)
+//   render()
+//   update child component props 
 //   componentDidUpdate(nextProps, nextState)
  
 
@@ -41,7 +43,7 @@ import Person from './Person/Person';
 
 // if you have a use-case where you have a component which receives a lot of props, but it should re-render only if one of these props changes, 
 // then its a good idea to turn the component into a stateful component, and use shouldComponentUpdate to only change the relevant property (as is done below);
-class Persons extends Component  {
+class Persons extends PureComponent  {
   // set up state here
   // dont cause side effects
   constructor (props) {
@@ -58,24 +60,33 @@ class Persons extends Component  {
     console.log('[Persons.js] Inside componentWillMount()')
   }
 
-  // here you can cause side effects - e.g. making ajax calls 
+  // here you can cause side effects (also in componentDidUpdate) - e.g. making ajax calls 
   // dont change state here, it will cause a re-render (unless thats what you're looking to do - like the clock example in the react documentation tutorials)
   componentDidMount() {
     console.log('[Persons.js] Inside componentDidMount()')    
   }
 
   // doesnt run when a component is first rendered, only when its about to be updated 
+  // also doesnt run if the update is caused by a change in state, as opposed to a change in props.
   componentWillReceiveProps(nextProps) {
     console.log('[UPDATE Persons.js] Inside componentWillReceiveProps() ', nextProps)
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('[UPDATE Persons.js] Inside shouldComponentUpdate() ', nextProps, nextState)
-    // this works because of the way the persons property is updated (see deletePersonHandler in App.js)
-    // the spread operator is used to make a new object, so that when the check below is done, its clear that there are 2 different objects
-    // this works because, as stated in the react documentation, all react properties must be pure (not changing things outside of their scope)
-    return nextProps.persons !== this.props.persons;
-  }
+  // we can chose whether to cancel the update or not here
+  // must return true or false
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('[UPDATE Persons.js] Inside shouldComponentUpdate() ', nextProps, nextState)
+  //   // this works because of the way the persons property is updated (see deletePersonHandler in App.js)
+  //   // the spread operator is used to make a new object, so that when the check below is done, its clear that there are 2 different objects
+  //   // this works because, as stated in the react documentation, all react properties must be pure (not changing things outside of their scope)
+  //   // you can chose to change if only one prop changes 
+  //   // return nextProps.persons !== this.props.persons;
+  //   // or you change chose to change if any of the relevant props change
+  //   return nextProps.persons !== this.props.persons ||
+  //   nextProps.changed !== this.props.changed ||
+  //   nextProps.clicked !== this.props.clicked;
+  //   // return true;
+  // }
 
   //using arrow functions for these is also fine
   componentWillUpdate = (nextProps, nextState) => {
@@ -88,7 +99,7 @@ class Persons extends Component  {
   }
 
   // here you prepare and structure JSX Code
-  render() {
+    render() {
     console.log('[Persons.js] Inside render()')    
     return this.props.persons.map((person, ind) => {
             return (
