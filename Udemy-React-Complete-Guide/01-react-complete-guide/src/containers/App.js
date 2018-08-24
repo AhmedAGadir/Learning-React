@@ -6,7 +6,15 @@ import Persons from '../components/Persons/Persons.js';
 import Cockpit from '../components/Cockpit/Cockpit.js';
 // import Radium, { StyleRoot } from 'radium';
 // import ErrorBoundary from './ErrorBoundary/ErrorBoundary.js';
+// import WithClass from '../hoc/WithClass.js'
+import Aux from '../hoc/Auxiliary.js'
+import withClass2 from '../hoc/withClass2.js';
 
+// The context API allows us to pass data around without having to set a chain of props
+// still the props approach is recommended as it makes components more reusable and doesnt tie them together that much
+// still the context API is great for passing around global settings
+// can set up a default value in createContext -> false is not authenticated
+export const AuthContext = React.createContext(false)
 
 // why should you use functional components as often as possible?
 // because these components have a narrow focus and a clear responsibility - they are about rendering something.
@@ -45,6 +53,7 @@ class App extends PureComponent {
     // this.state = {} //old way of initializing state
   }
 
+  // discouraged to use - see NEW in person.js
   componentWillMount() {
     console.log('[App.js] Inside componentWillMount()')
   }
@@ -66,6 +75,7 @@ class App extends PureComponent {
   //   nextState.showPersons !== this.state.showPersons;
   // }
 
+  // discouraged to use - see NEW in person.js
   componentWillUpdate = (nextProps, nextState) => {
     console.log('[UPDATE App.js] Inside componentWillUpdate() ', nextProps, nextState)
   }
@@ -86,6 +96,8 @@ class App extends PureComponent {
     ],
     otherState: 'some other value',
     showPersons: false,
+    toggleClicked: 0,
+    authenticated: false,
   } 
 
   // using ES6 arrow functions allows us to use the this keyword inside our function easily. ===> arrow functions make it so that whatever the this value is in the lexical scope that the function was defined, has the same this value inside the function -- see YDKJS
@@ -132,8 +144,24 @@ class App extends PureComponent {
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState({showPersons: !doesShow})
+    // set state is a method executed asynchronously by react,so you cant rely on updating the state like this: 
+    // this.setState({
+    //   showPersons: !doesShow,
+    //   toggleClicked: this.state.toggleClicked + 1,
+    // })
+    // if you want to use the current state in your updated state, use the function syntax
+    this.setState((prevState, props) => {
+      return {
+        showPersons: !doesShow,
+        toggleClicked: prevState.toggleClicked + 1,
+      }
+    })
   }
+
+  loginHandler = () => {
+    this.setState({authenticated: true})
+  }
+
   //in JSX, use an uppercase C in onClick 
 
   // render() doesnt immediately render JSX to the main DOM...
@@ -165,7 +193,7 @@ class App extends PureComponent {
       persons = <Persons 
               persons={this.state.persons} 
               clicked={this.deletePersonHandler} 
-              changed={this.nameChangedHandler}/>      
+              changed={this.nameChangedHandler} />      
 
       // style.backgroundColor = 'red';
       // style[':hover'] = {
@@ -194,19 +222,22 @@ class App extends PureComponent {
       // both of these allow you to apply scoped styles, pseudo-selectors, media queries etc. to components
       // <StyleRoot>
       // the first buttons sets showPersons to always be true (no toggling), the second button toggles showPersons
-      <div className={classes.App}>
-      <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
+      //<WithClass classes={classes.App}>
+      <Aux>
+        <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
         <Cockpit
           title={this.props.title} 
           showPersons={this.state.showPersons}
           persons={this.state.persons}
+          login={this.loginHandler}
           clicked={this.togglePersonsHandler}/>
-        {persons}
-      </div>
+          <AuthContext.Provider value={this.state.authenticated}>
+            {persons}
+          </AuthContext.Provider>
+      </Aux>
+      //</WithClass>
       // </StyleRoot>    
-      );
+    );
   }
 }
-
-// export default Radium(App);
-export default App;
+export default withClass2(App, classes.App);

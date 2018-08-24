@@ -1,0 +1,5 @@
+1) plan the component tree / component structure
+
+2) application state (Data)
+
+3) Components vs Containers

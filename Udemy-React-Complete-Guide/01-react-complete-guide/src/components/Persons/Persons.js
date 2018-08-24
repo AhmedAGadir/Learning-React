@@ -1,19 +1,20 @@
 import React, { PureComponent } from 'react';
 import Person from './Person/Person';
 
-
 // ========== COMPONENT LIFECYCLE =========
 // see console to see the lifecycle in action
 // 1) constructor(props)
-// 2) componentWillMount()
+// 2) [DISCOURAGED] componentWillMount()
 // 3) render()
 // 4) render child components
 // 5) componentDidMount
 // -- UPDATE --
-//   componentWillReceiveProps(nextProps)
+//   [DISCOURAGED] componentWillReceiveProps(nextProps)
 //   shouldComponentUpdate(nextProps, nextState)
-//   componentWillUpdate(nextProps, nextState)
+//   [DISCOURAGED] componentWillUpdate(nextProps, nextState)
+//   [NEW] getDerivedStateFromProps() 
 //   render()
+//   [NEW] getSnapshotBeforeUpdate
 //   update child component props 
 //   componentDidUpdate(nextProps, nextState)
  
@@ -51,9 +52,11 @@ class Persons extends PureComponent  {
     console.log('[Persons.js] Inside Constructor');
     this.state = {
       foo: 'bar',
-    }
+    };
+    this.lastPersonRef = React.createRef();
   }
 
+  // discouraged to use - see NEW
   // update state here
   // dont cause side effects
   componentWillMount() {
@@ -63,9 +66,11 @@ class Persons extends PureComponent  {
   // here you can cause side effects (also in componentDidUpdate) - e.g. making ajax calls 
   // dont change state here, it will cause a re-render (unless thats what you're looking to do - like the clock example in the react documentation tutorials)
   componentDidMount() {
-    console.log('[Persons.js] Inside componentDidMount()')    
+    console.log('[Persons.js] Inside componentDidMount()');
+    this.lastPersonRef.current.focus();    
   }
 
+  // discouraged to use - see NEW 
   // doesnt run when a component is first rendered, only when its about to be updated 
   // also doesnt run if the update is caused by a change in state, as opposed to a change in props.
   componentWillReceiveProps(nextProps) {
@@ -88,9 +93,28 @@ class Persons extends PureComponent  {
   //   // return true;
   // }
 
+  // discouraged to use - see NEW 
   //using arrow functions for these is also fine
   componentWillUpdate = (nextProps, nextState) => {
     console.log('[UPDATE Persons.js] Inside componentWillUpdate() ', nextProps, nextState)
+  }
+
+  // NEW
+  // executed when props are updated
+  // gives a chance to update state too before code renders
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log('[UPDATE Persons.js] Inside getDerivedStateFromProps() ', nextProps, prevState)
+
+    // return a new state if you want
+    return prevState
+  }
+
+  // NEW
+  // exercutes right before componentDidUpdate 
+  // allows you to get a snapshot of your DOM right before its about to update
+  // useful for e.g. saving the current scrolling position of a user
+  getSnapshotBeforeUpdate() {
+    console.log('[UPDATE Persons.js] Inside getSnapshotBeforeUpdate() ')
   }
 
   // here you can cause side effects, just like componentDidMount
@@ -105,10 +129,12 @@ class Persons extends PureComponent  {
             return (
               <Person 
               click={() => this.props.clicked(ind)}
+              position={ind}
               changed={e => this.props.changed(e, person.id)}
               name={person.name} 
               age={person.age}
-              key={person.id} />)
+              key={person.id}
+              ref={this.lastPersonRef} />)
           })
   }
 }

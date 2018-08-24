@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Cockpit.css';
-import Aux from '../../HOC/hoc.js'
+import Aux from '../../hoc/Auxiliary.js'
 
 const cockpit = props => {
 
@@ -23,6 +23,7 @@ const cockpit = props => {
 			// style={style} 
 			className={btnClass}
 			onClick={props.clicked}>Switch Name</button>
+			<button onClick={props.login}>Log in</button>
 	    </Aux>
  	)
 }    
