@@ -1,0 +1,7 @@
+in class based syntax render is the only method thats required 
+
+you can just use the CDN from the reactdocs in your index.html to use react
+alternatively you could set up your own thing like webpack/gulp 
+the easiest way if definitely the create-react-app way.
+
+// to get it ready for production - write "npm run build" in the terminal, this will compile everything which can then be uploaded to your server.
