@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ProjectItem from './ProjectItem';
+
+//npm install --save prop-types
 import PropTypes from 'prop-types';
 
 

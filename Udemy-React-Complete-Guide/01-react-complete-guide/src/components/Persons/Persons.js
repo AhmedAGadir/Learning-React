@@ -7,7 +7,7 @@ import Person from './Person/Person';
 // 2) [DISCOURAGED] componentWillMount()
 // 3) render()
 // 4) render child components
-// 5) componentDidMount
+// 5) componentDidMount()
 // -- UPDATE --
 //   [DISCOURAGED] componentWillReceiveProps(nextProps)
 //   shouldComponentUpdate(nextProps, nextState)
@@ -27,7 +27,7 @@ import Person from './Person/Person';
 //               age={person.age}
 //               // the key prop is an important property we should add when rendering list of data
 //               // every element should have a unqiue id so that React can compare elements of the future with elements of the past when re-rendering the DOM, and only re-render elements that have changed
-//               // dont use the index of the element in the list, as when the list is updated indexes may change.
+//               // dont use the index of the element in the list, as when the list is updated indexes will change.
 //               // if the key property is missing, react will re-render the whole list, which can be v. inefficient for long lists (especially if only one or two list items have changed).
 //               // in real data the chances are high that the data will give each element a unique ID.
 //               key={person.id} />)
@@ -84,13 +84,14 @@ class Persons extends PureComponent  {
   //   // this works because of the way the persons property is updated (see deletePersonHandler in App.js)
   //   // the spread operator is used to make a new object, so that when the check below is done, its clear that there are 2 different objects
   //   // this works because, as stated in the react documentation, all react properties must be pure (not changing things outside of their scope)
-  //   // you can chose to change if only one prop changes 
+  //   // you can choose to change if only one prop changes 
   //   // return nextProps.persons !== this.props.persons;
   //   // or you change chose to change if any of the relevant props change
   //   return nextProps.persons !== this.props.persons ||
   //   nextProps.changed !== this.props.changed ||
   //   nextProps.clicked !== this.props.clicked;
   //   // return true;
+  //   // instead of doing all of this - you can jut use purecomponent
   // }
 
   // discouraged to use - see NEW 

@@ -1,0 +1,9 @@
+// [COCKPIT.JS] study css module object stuff 
+
+// [PERSONS.JS] lifecycle components, pure components (and shallow checks), React.createRef()
+
+// [PERSON.JS] radium, withClass and withClass2 (why do we even use them), authcontext, 
+
+// [WITHCLASS2.JS] this.props.forwardedRef & React.forwardRef()
+
+// [APP.JS] radium&styleroot, error handling, authcontext, more on shouldComponentUpdate(), 

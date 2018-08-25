@@ -4,7 +4,8 @@ import classes from './Person.css';
 //import WithClass from '../../../hoc/WithClass.js'
 import withClass2 from '../../../hoc/withClass2.js';
 import Aux from '../../../hoc/Auxiliary.js';
-//first write npm install --save prop-types
+//npm install --save prop-types
+// i believe propTypes used to be part of the react package, but for some reason it seems to be its own seperate thing now
 import PropTypes from 'prop-types';
 
 import { AuthContext } from '../../../containers/App.js'
@@ -63,7 +64,7 @@ class Person extends Component {
   // }
 
   // reference is a special property (like key)
-  // reference can only be accessed in stateful components
+  // reference can only be accessed in stateful components (via this.refs.foo ?)
   // you can also use them on your own components
   // dont use them for styling (thats not the react way), it is really for controlling focus or media playback
   render() {

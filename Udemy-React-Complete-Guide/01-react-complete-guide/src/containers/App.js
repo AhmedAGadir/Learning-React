@@ -1,3 +1,11 @@
+// getting started
+// npm install create-react-app -g (this downlaods it globally on our machine so that we can create react apps anywhere)
+// cd ../... (where you want to create the project)
+// create-react-app project-name
+// cd project-name
+// npm start
+
+
 import React, { PureComponent } from 'react';
 //only use PureComponent when you know that updates may not be required
 // PureComponent is the same as Component, it just also does a shallowcheck automatically when changes are made, and only updates if props/state has changed
@@ -113,6 +121,7 @@ class App extends PureComponent {
   // }
 
   deletePersonHandler = personInd => {
+    // keep the state immutable, everything should flow downwards
     const persons = [...this.state.persons];
     persons.splice(personInd, 1);
     this.setState({persons: persons})
