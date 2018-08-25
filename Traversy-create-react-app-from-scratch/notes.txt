@@ -1,0 +1,12 @@
+https://www.youtube.com/watch?v=deyxI-6C2u4
+
+1) "npm init" - create a package.json file
+2) "npm i react react-dom" - these are the only dependancies we need for production, everything else are dev dependancies
+3) "npm i --save-dev webpack webpack-dev-server webpack-cli" 
+we need webpack because all of our code needs to be bundled into one file. we also need a dev server to work with and webpack involves one that includes stuff like live-reload etc. the webpack cli allows us to run webpack commands (which were going to use for our build script)
+4) "npm i --save-dev babel-core babel-loader babel-preset-env babel-preset-react html-webpack-plugin"
+we need babel because react uses es6 classes, imports etc. so we need to transpile that code down to browser friendly code. we also need a babel loader because we need to be able to compile JSX. we also need the HTML Webpack plugin which will generate our build HTML file.
+
+===
+
+next we set up a webpack config file -- you need one whenever you set up a webpack project. in the root make a "webpack.config.js" file
