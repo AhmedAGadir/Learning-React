@@ -6,4 +6,6 @@
 
 // [WITHCLASS2.JS] this.props.forwardedRef & React.forwardRef()
 
-// [APP.JS] radium&styleroot, error handling, authcontext, more on shouldComponentUpdate(), 
+// [APP.JS] radium, styleroot, and styling methods in general, error handling, authcontext, more on shouldComponentUpdate(), 
+
+// [ErrorBoundary.js] how it works
