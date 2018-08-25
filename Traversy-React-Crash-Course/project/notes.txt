@@ -5,3 +5,15 @@ alternatively you could set up your own thing like webpack/gulp
 the easiest way if definitely the create-react-app way.
 
 // to get it ready for production - write "npm run build" in the terminal, this will compile everything which can then be uploaded to your server.
+
+
+
+// SEE ADDPROJECT.JS
+// you can access elements and components in your code by passing them refernces and then using this.refs.whateverYouNamedTheReference
+// this is the easiest way to bind the this operator (<form onSubmit={this.handleSubmit}> )
+// notice => this.setState can also take a second parameter which is a callback function 
+// could be useful => (static defaultProps)
+
+
+
+// NPM module called UUID -> generates unqiue ID's - use "npm install --save uuid" then "import uuid from 'uuid'""
