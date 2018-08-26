@@ -121,7 +121,7 @@ class App extends PureComponent {
   // }
 
   deletePersonHandler = personInd => {
-    // keep the state immutable, everything should flow downwards
+    // keep the state immutable
     const persons = [...this.state.persons];
     persons.splice(personInd, 1);
     this.setState({persons: persons})
