@@ -5,6 +5,8 @@
 // cd project-name
 // npm start
 
+// if you download the project from github, run "npm install" to download dependancies
+
 
 import React, { PureComponent } from 'react';
 //only use PureComponent when you know that updates may not be required
