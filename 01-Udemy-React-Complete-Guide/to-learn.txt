@@ -1,3 +1,10 @@
+https://reactjs.org/docs
+
+// highly recommended
+
+=======================================
+
+
 // [COCKPIT.JS] study css module object stuff 
 
 // [PERSONS.JS] lifecycle components, pure components (and shallow checks), React.createRef()
