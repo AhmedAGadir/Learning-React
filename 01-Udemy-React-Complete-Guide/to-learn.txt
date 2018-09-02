@@ -1,6 +1,6 @@
 https://reactjs.org/docs
 
-// highly recommended
+// highly recommended - answers a lot of the following questions
 
 =======================================
 
