@@ -4,11 +4,15 @@ import React from 'react';
 // the advantage is that your css classes are scoped
 // use an array.join(' ') if you want to add more than one class e.g. className={[classes.foo, class.foobar].join(' ')}
 import classes from './Layout.css';
+import Toolbar from '../Navigation/Toolbar/Toolbar';
+import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
 
 const layout = props => (
 	<React.Fragment>
-		{/* this is a nice way of drafting things up
-		<div>Toolbar, SideDrawer, Backdrop</div>*/}
+		{/* this is a nice way of drafting things up*/}
+		<Toolbar />
+		<SideDrawer />
+		<div>SideDrawer, Backdrop</div>
 		<main className={classes.Content}>
 			{props.children}
 		</main>
