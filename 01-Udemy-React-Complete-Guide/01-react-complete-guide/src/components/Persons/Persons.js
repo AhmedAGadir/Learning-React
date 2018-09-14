@@ -19,6 +19,9 @@ import Person from './Person/Person';
 //   componentDidUpdate(nextProps, nextState)
  
 
+// componentDidMount and componentDidUpdate are important when causing side-effects (ajax requests etc.)
+
+
 // const persons = props => props.persons.map((person, ind) => {
 //             return /*<ErrorBoundary key={person.id}>*/ (<Person 
 //               click={() => props.clicked(ind)}

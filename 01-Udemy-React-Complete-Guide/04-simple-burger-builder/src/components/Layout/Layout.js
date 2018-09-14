@@ -1,3 +1,5 @@
+//this could have been in the containers folder, or the higher order components folder
+
 import React from 'react';
 // using css modules: you can name the css import whatever you want
 // it basically just gives an object which you name and then assign CSS classes with
