@@ -6,7 +6,7 @@ class Modal extends React.Component {
 	
 	// not using purecomponent as it would run more checks than we want, e.g. checking if the clicked prop has changed
 	shouldComponentUpdate(nextProps, nextState) {
-		if (nextProps.show !== this.props.show) {
+		if (nextProps.show !== this.props.show || nextProps.children !== this.props.children) {
 			return true;
 		}
 		return false
