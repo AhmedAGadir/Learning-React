@@ -1,5 +1,8 @@
 import React from 'react';
-
+// this allows us access the props that are normally only accessible on the component specified in the router component
+// to other components down their component trees
+// can see them by console logging this.props
+// import { withRouter } from 'react-router-dom';
 import './Post.css';
 
 const post = (props) => (
@@ -11,4 +14,5 @@ const post = (props) => (
     </article>
 );
 
-export default post;
+// export default withRouter(post);
+export default post
