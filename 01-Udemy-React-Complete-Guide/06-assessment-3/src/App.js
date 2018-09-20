@@ -30,7 +30,6 @@ class App extends Component {
             <Route path='/users' exact component={Users}/>
             <Route path='/courses' component={Courses}/>
             <Redirect from='/all-courses' to='/courses' />
-            {/*404 error handling*/}
             <Route render={() => <h1>404: Not Found</h1>} />
           </Switch>
 

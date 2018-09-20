@@ -37,6 +37,8 @@ class Courses extends Component {
                     }
                 </section>
                 <Route path='/courses/:id' component={Course}/> 
+                {/*another option would be to use path='/courses/:id/:title,
+                in this case the pathname on the NavLink would be: this.props.match.url + '/' + course.id + '/' + course.title*/}
             </div>
         );
     }

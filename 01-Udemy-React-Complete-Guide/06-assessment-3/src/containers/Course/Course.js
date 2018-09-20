@@ -8,6 +8,14 @@ class Course extends Component {
     	console.log('[COURSE] props are: ', this.props);
     	let title = querySearch(this.props.location.search).title;
 
+    	// javascript has a built in version. could have used:
+    	// let title;
+    	// let query = new URLSearchParams(this.props.location.search);
+    	// for (let param of query.entries()) {
+    	// 	console.log(param)
+    	// 	title = param[1]
+    	// }
+
         return (
             <div>
                 <h1>{title}</h1>
