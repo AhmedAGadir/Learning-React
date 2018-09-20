@@ -1,0 +1,10 @@
+a {
+	display: block;
+	margin: 10px ;
+}
+
+a:active,
+a:hover,
+a.active {
+	color: magenta;
+}

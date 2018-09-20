@@ -25,7 +25,7 @@ import { Route, Link, NavLink, Switch } from 'react-router-dom'
 
 class Blog extends Component {
     state = {
-        auth: false,
+        auth: true,
     }
 
     render () {
@@ -65,6 +65,12 @@ class Blog extends Component {
                         This route will always be rendered, however it will also pass on a property (id in this case)
                          to the rendered component (under match -> params) that contains the path */}
                     <Route path="/:id" exact={true} component={FullPost} />
+                    {/*== how to handle 404 erros
+                    you can define a Route component without a path, which will render something for any unknown component
+                    can use either the component prop or render prop (its your choice)
+                    this Route should always come last in the list */}
+                    <Route render={() => <h1>Not found</h1>} />
+
                 </Switch>
             </div>
         );
