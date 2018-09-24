@@ -1,5 +1,5 @@
 import React from 'react';
-// this allows us access the props that are normally only accessible on the component specified in the router component
+// this allows us access the props that are normally only accessible on the component specified in the route component's component prop
 // to other components down their component trees
 // can see them by console logging this.props
 // import { withRouter } from 'react-router-dom';

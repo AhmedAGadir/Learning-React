@@ -31,7 +31,8 @@ class Posts extends Component {
 
     postSelected = id => {
         // this.setState({selectedPostId: id})
-        // push allows you to push a new page onto the stack of pages
+        // .push allows you to push a new page onto the stack of pages
+        // .replace replaces the current page on the page stack
         // this.props.history.push({pathname: '/' + id})
         this.props.history.push('/' + id);
     }

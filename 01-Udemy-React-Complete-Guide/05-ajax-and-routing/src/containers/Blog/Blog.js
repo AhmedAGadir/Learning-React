@@ -51,6 +51,9 @@ class Blog extends Component {
                         </ul>
                     </nav>
                 </header>
+                {/*the components specified in the Route component's component prop will have a props object with a bunch of useful info, these props are not passed down to said components children however,
+                if you want those child components to access the useful info, use the withRouter HOC (See POST.JS)*/}
+
                 {/* if the current path is prefixed with the path property then the jsx in the render prop is rendered,
                 to set it so that the jsx in the render prop is only rendered when your exactly on the path property, set exact to true (Default is false)*/}
                 {/*<Route path="/" exact={true} render={() => <h1>yo</h1>}/> */}

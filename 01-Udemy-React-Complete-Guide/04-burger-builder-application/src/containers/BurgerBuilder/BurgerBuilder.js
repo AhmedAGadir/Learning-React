@@ -25,6 +25,7 @@ class BurgerBuilder extends Component {
 	}
 
 	componentDidMount = () => {
+		console.log(this.props)
 		axios.get('/ingredients.json')
 			.then(response => {
 				this.setState({ingredients: response.data})
@@ -90,36 +91,21 @@ class BurgerBuilder extends Component {
 	}
 
 	purchaseContinueHandler = () => {
-		// alert('Continued...')
-		this.setState({loading: true})
-		const order = {
-			ingredients: this.state.ingredients,
-			// in a real app you would recalculate the price on the server. 
-			// if you dont users could potentially manipulate the price before the data gets sent
-			price: this.state.totalPrice,
-			customer: {
-				name: 'Ahmed AG',
-				address: {
-					street: 'bob street',
-					postCode: 'W1 2BB',
-					country: 'UK'
-				},
-				email: 'test@bob.com'
-			},
-			deliveryMethod: 'fastest'
+		// this allows us to push a new page onto a stack on pages
+		// this.props.history.push('/checkout')
+		// since were adding query parameters we should use the object form
+		const queryParams = [];
+		for (let ing in this.state.ingredients) {
+			queryParams.push(encodeURIComponent(ing) + '=' + encodeURIComponent(this.state.ingredients[ing]))
 		}
-		// the baseURL is in our axios-orders.js file
-		// firebase will create a new node 'order'
-		// the .json is added (syntax stuff);
-		axios.post('/orders.json', order)
-			.then(response => {
-				console.log(response);
-				this.setState({loading: false, purchasing: false});
-			})
-			.catch(error => {
-				console.log(error);
-				this.setState({loading: false, purchasing: false});
-			})
+		queryParams.push('price=' + this.state.totalPrice)
+		const queryString = queryParams.join('&');
+		console.log('queryString is:', queryString)
+
+		this.props.history.push({
+			pathname: '/checkout',
+			search: '?' + queryString,
+		})
 	}
 
 	render() {

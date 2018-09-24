@@ -26,6 +26,7 @@ class NewPost extends Component {
         axios.post('https://jsonplaceholder.typicode.com/posts', data)
             .then(response => {
                 console.log(response);
+                // this pushes a new page (the home page in this case) onto the page stack, taking us back to the home page
                 // can also use replace (small difference to do with the page stack)
                 this.props.history.push('/')
                 // this.setState({submitted: true})

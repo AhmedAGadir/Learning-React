@@ -11,6 +11,7 @@ import { BrowserRouter } from 'react-router-dom'
 class App extends Component {
   render() {
   	// by wrapping everything in the BrowserRouter component, weve turned on routing for our app
+    // routing can now be used at all levels
     return (
     	<BrowserRouter>
       		<div className="App">
