@@ -1,3 +1,5 @@
+import * as actionType from './actions';
+
 const initialState = {
 	counter: 0,
 	results: []
@@ -10,6 +12,9 @@ const reducer = (prevState = initialState, action) => {
 
 	// dont need to include breaks; since were returning something every time
 	switch ( action.type ) {
+		// can now use actionTypes.INCREMENT
+		// the clever part is that if we mistype of our properties, well get an error
+		// this is useful for larger applications
 		case 'INCREMENT':
 			return {
 				...prevState,
