@@ -1,4 +1,8 @@
-import * as actionType from './actions';
+// *** ========== THIS IS THE REDUCER THAT WAS USED BEFORE IT WAS SPLIT INTO MULTIPLE REDUCERS ============
+
+
+
+// [NOT USING] import * as actionTypes from './actions';
 
 const initialState = {
 	counter: 0,
@@ -12,7 +16,7 @@ const reducer = (prevState = initialState, action) => {
 
 	// dont need to include breaks; since were returning something every time
 	switch ( action.type ) {
-		// can now use actionTypes.INCREMENT
+		// *** ==== can now use actionTypes.INCREMENT etc.
 		// the clever part is that if we mistype of our properties, well get an error
 		// this is useful for larger applications
 		case 'INCREMENT':
@@ -40,20 +44,20 @@ const reducer = (prevState = initialState, action) => {
 			return {
 				...prevState,
 				// [USEFUL INFO] can use .concat to create immutable copies of arrays (if you dont want to add to them simply use .concat())
-				// can use new Date() to generate id's (number of ms since 1970 or something)
+				// can use new Date() to generate id's (number of ms since 1970 or something), its not a production-level solution though as quickly pressing the button will generate the same id
 				results: prevState.results.concat({id: new Date(), value: prevState.counter})
 			}
 		case 'DELETE_RESULT':
-		// ======== COPYING OBJECTS WITH NESTED ARRAYS IMMUTABLY (AND REMOVING FROM THE ARRAYS) =========
-		// method 1 - copy the array and then manipulate the new array
-		// const id = 2;
-		// const newArray = [...prevState.results] // shallow copy (nested objects and arrays are still references), but since were removing the object and not manipulating them its ok
-		// newArray.splice(id, 1)
-		// return { ...prevState, results: newArray}
+			// ======== COPYING OBJECTS WITH NESTED ARRAYS IMMUTABLY (AND REMOVING FROM THE ARRAYS) =========
+			// method 1 - copy the array and then manipulate the new array
+			// const id = 2;
+			// const newArray = [...prevState.results] // shallow copy (nested objects and arrays are still references), but since were removing the object and not manipulating them its ok
+			// newArray.splice(id, 1)
+			// return { ...prevState, results: newArray}
 
-		// method 2 
-		const updatedArray = prevState.results.filter(result => result.id !== action.resultId)
-			return {
+			// method 2 
+			const updatedArray = prevState.results.filter(result => result.id !== action.resultId)
+				return {
 				...prevState,
 				results: updatedArray
 			}

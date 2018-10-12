@@ -132,9 +132,10 @@ class ContactData extends Component {
 	}
 
 	inputChangedHandler = (e, inputIdentifier) => {
-		// since an object is nested inside of this.state.orderForm, its not enough to just use the spread operator
+		// to see more on shallow/deep copies see 07-REDUX-START/../REDUCER.JS
+		// [IMPORTANT INFO] since an object is nested inside of this.state.orderForm, its not enough to just use the spread operator
 		// the reason being that the spread operator will create a shallow copy of this.state.orderForm but not a deep copy
-		// a shallow copy will copy all things like strings, numbers etc but not objects nested inside of the object were copying
+		// a shallow copy will copy all things like strings, numbers etc but not objects/arrays nested inside of the object were copying
 		// to create a deep copy we do the following
 		const updatedOrderForm = {
 			...this.state.orderForm
