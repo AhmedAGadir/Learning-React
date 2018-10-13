@@ -1,0 +1,13 @@
+.Logo {
+	background: white;
+	padding: 8px;
+	/* its a better practice to adjust the css of a reusable 
+	component in the places where it is being used*/
+	height: 100%; 
+	box-sizing: border-box;
+	border-radius: 5px;
+}
+
+.Logo img {
+	height: 100%;
+}
