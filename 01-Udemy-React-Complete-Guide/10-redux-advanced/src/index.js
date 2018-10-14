@@ -6,17 +6,17 @@ import registerServiceWorker from './registerServiceWorker';
 
 // npm install --save redux
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-// import reducer from './store/reducer';
 import counterReducer from './store/reducers/counter';
 import resultsReducer from './store/reducers/results';
-// to connect react to redux install:
-// npm install --save react-redux
-// provider allows us to inject our store into our app
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
+
+// npm install --save redux-thunk 
+// redux-thunk adds a middleware to our project which allows action-creators to not return actions, but 
+// instead return functions which eventually dispatch actions. 
+import thunk from 'redux-thunk';
 
 // if we only have one reducer
 // const store = createStore(reducer);
-
 // if we have multiple reducers
 const rootReducer = combineReducers({
 	ctr: counterReducer,
@@ -48,10 +48,7 @@ const logger = store => {
 // compose allows us to combine enhancers, we use it as a fallback (in case window.window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ doesnt work)
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger)));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger, thunk)));
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 registerServiceWorker();
-
-//redux-thunk adds a middleware to our project, which allows our 
-// action-creators to return a function which will eventually dispatch an action. 
