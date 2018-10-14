@@ -3,13 +3,12 @@ import Layout from './components/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import Checkout from './containers/Checkout/Checkout';
 //npm install --save react-router-dom
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Orders from './containers/Orders/Orders';
 
 class App extends Component {
   render() {
     return (
-    	<BrowserRouter>
 			<div>
 				<Layout>
 		  			<Route path="/" exact component={BurgerBuilder} />
@@ -17,7 +16,6 @@ class App extends Component {
 		  			<Route path="/checkout" component={Checkout} />
 				</Layout>
 			</div>
-		</BrowserRouter>
     );
   }
 }
