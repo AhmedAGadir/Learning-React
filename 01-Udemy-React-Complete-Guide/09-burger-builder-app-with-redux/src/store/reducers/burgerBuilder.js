@@ -33,6 +33,26 @@ const reducer = (prevState = initialState, action) => {
 				},
 				totalPrice: prevState.totalPrice - INGREDIENT_PRICES[action.ingredientName] 
 			}
+		case actionTypes.SET_INGREDIENTS: 
+			return {
+				...prevState,
+				// we can set the ingredients simply like this:
+				// ingredients: action.ingredients,
+				// however if we wanted to order the ingredients so that they render on the screen in a particular order, do the following:
+				ingredients: {
+					salad: action.ingredients.salad,
+					bacon: action.ingredients.bacon,
+					cheese: action.ingredients.cheese,
+					meat: action.ingredients.meat
+				},
+				// we set error to false in case we had a previous error
+				error: false,
+			}
+		case actionTypes.FETCH_INGREDIENTS_FAILED:
+			return {
+				...prevState,
+				error: true
+			}
 		default:
 			return prevState
 	}

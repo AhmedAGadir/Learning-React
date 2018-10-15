@@ -3,7 +3,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
-// import axios from '../../axios-orders';
+import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
@@ -23,27 +23,19 @@ class BurgerBuilder extends Component {
 		purchasing: false,
 		// loading: false,
 
-		// error is handled in actions/burgerBuilder
+		// error is handled in actions/burgerBuilder.js
 		// error: false,
 	}
 
 	// ========= two ways to run asynchronous code ===============
-	// 1) in componentDidMount, instead of using this.setState after recieving the response, you could dispatch an action
+	// 1) In componentDidMount, instead of using this.setState after recieving the response, you could dispatch an action
 	// to update the state (would be done via running this.props.foo in cDM and having the action defined in matchDispatchToProps )
+	// 2) Using asynchronous action handlers (with redux-thunk). see actions/burgerBuilder.js
 
-
-
-	// componentDidMount = () => {
-	// 	console.log(this.props)
-	// 	axios.get('/ingredients.json')
-	// 		.then(response => {
-	// 			this.setState({ingredients: response.data})
-	// 		})
-	// 		.catch(error => {
-	// 			console.log(error)
-	// 			this.setState({error: true})
-	// 		})
-	// }
+	// well go with number 2
+	componentDidMount = () => {
+		this.props.onInitIngredients();
+	}
 
 	// addIngredientHandler = type => {
 	// 	// managed in the reducer now
@@ -87,8 +79,7 @@ class BurgerBuilder extends Component {
 		}
 
 		let orderSummary = null;
-		let burger;
-		// let burger = this.state.error ? <p>Ingredients can't be loaded!</p> : <Spinner />;
+		let burger = this.state.error ? <p>Ingredients can't be loaded!</p> : <Spinner />;
 
 		if (this.props.ings) {
 			orderSummary = <OrderSummary 
@@ -129,7 +120,8 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
 	return {
 		ings: state.ingredients,
-		price: state.totalPrice
+		price: state.totalPrice,
+		error: state.error
 	}
 }
 
@@ -145,7 +137,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onIngredientAdded: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
-		onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName))
+		onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
+		onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients())
 	}	
 }
 
