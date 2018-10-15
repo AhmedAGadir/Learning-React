@@ -1,5 +1,6 @@
-// useful for larger applications
-// how to use them:
+// i didnt use this -- it was simpler to just hardcode the strings, but this could be useful in larger applications
+
+// how to use:
 // instead of hard-coding strings in the counter.js and reducer.js files, we can export these named constants
 // and use them. the benefit doing so is that if a typo is made you get a reference error
 

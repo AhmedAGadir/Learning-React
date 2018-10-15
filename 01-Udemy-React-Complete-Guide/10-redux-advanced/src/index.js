@@ -46,6 +46,7 @@ const logger = store => {
 // enabling redux devtools 
 // https://github.com/zalmoxisus/redux-devtools-extension
 // compose allows us to combine enhancers, we use it as a fallback (in case window.window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ doesnt work)
+// since were using middleware, we use this code snippet (see documentation - 1.2. advanced store setup)
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger, thunk)));

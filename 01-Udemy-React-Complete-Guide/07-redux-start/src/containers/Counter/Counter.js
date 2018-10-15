@@ -66,12 +66,13 @@ const mapStateToProps = state => {
     }
 }
 
-// here we say which type of actions do we want to dispatch in this container
+// here we define which actions we want to dispatch
 // instead of using setState, we now use this.props.foobar
 const mapDispatchToProps = dispatch => {
     // this calls dispatch on the store behind the scenes
     return {
         // *** ==== could use dispatch({actionTypes.INCREMENT}) etc.
+        // every action must have a type property
         onIncrementCounter: () => dispatch({type: 'INCREMENT'}),
         onDecrementCounter: () => dispatch({type: 'DECREMENT'}),
         onAddCounter: () => dispatch({type: 'ADD', amount: 5}),

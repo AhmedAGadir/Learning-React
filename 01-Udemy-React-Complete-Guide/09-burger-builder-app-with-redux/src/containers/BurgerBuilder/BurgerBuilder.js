@@ -3,12 +3,12 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
-import axios from '../../axios-orders';
+// import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions';
+import * as burgerBuilderActions from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
 	state = {
@@ -21,9 +21,17 @@ class BurgerBuilder extends Component {
 		// purchasable has been refactored 
 		// purchasable: false,
 		purchasing: false,
-		loading: false,
-		error: false,
+		// loading: false,
+
+		// error is handled in actions/burgerBuilder
+		// error: false,
 	}
+
+	// ========= two ways to run asynchronous code ===============
+	// 1) in componentDidMount, instead of using this.setState after recieving the response, you could dispatch an action
+	// to update the state (would be done via running this.props.foo in cDM and having the action defined in matchDispatchToProps )
+
+
 
 	// componentDidMount = () => {
 	// 	console.log(this.props)
@@ -125,10 +133,19 @@ const mapStateToProps = state => {
 	}
 }
 
+// ==== without action creators ====
+// const mapDispatchToProps = dispatch => {
+// 	return {
+// 		onIngredientAdded: (ingName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
+// 		onIngredientRemoved: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName})
+// 	}	
+// }
+
+// ==== with action creators ====
 const mapDispatchToProps = dispatch => {
 	return {
-		onIngredientAdded: (ingName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
-		onIngredientRemoved: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName})
+		onIngredientAdded: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
+		onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName))
 	}	
 }
 
