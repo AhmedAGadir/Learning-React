@@ -39,6 +39,7 @@ class NewPost extends Component {
         // if (this.state.submitted) {
         //     redirect = <Redirect to='/' />
         // }
+        // another way of redirecting is with this.props.history.replace('/') or this.props.history.push('/')
         return (
             <div className="NewPost">
                 {/*{redirect}*/}

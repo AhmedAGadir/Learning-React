@@ -6,8 +6,9 @@ import classes from './ContactData.css'
 import axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
-
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import { connect } from 'react-redux';
+import * as actions from '../../../store/actions/index'
 
 class ContactData extends Component {
 	state = {
@@ -64,7 +65,7 @@ class ContactData extends Component {
 				value: '',
 				validation: {
 					required: true,
-					minLength: 3,
+					minLength: 2,
 					maxLength: 7
 				},
 				valid: false,
@@ -80,7 +81,7 @@ class ContactData extends Component {
 				validation: {
 					required: true,
 					minLength: 3,
-					maxLength: 7
+					maxLength: 15
 				},
 				valid: false,
 				touched: false
@@ -99,38 +100,22 @@ class ContactData extends Component {
 			}
 		},
 		formIsValid: false,
-		loading: false,
+		// loading is handled by redux
+		// loading: false,
 	}
 
 	orderHandler = e => {
 		e.preventDefault();
-		this.setState({loading: true})
-		// how to copy objects
 		const formData = {};
 		for (let formElementIdentifier in this.state.orderForm) {
 			formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
 		}
 		const order = {
 			ingredients: this.props.ings,
-			// in a real app you would recalculate the price on the server. 
-			// if you dont users could potentially manipulate the price before the data gets sent
 			price: this.props.price,
-			order: formData,
+			orderData: formData,
 		}
-		// the baseURL is in our axios-orders.js file
-		// firebase will create a new node 'order'
-		// the .json is added (syntax stuff);
-		axios.post('/orders.json', order)
-			.then(response => {
-				console.log(response);
-				this.setState({loading: false});
-				// go back to the homepage
-				this.props.history.push('/')
-			})
-			.catch(error => {
-				console.log(error);
-				this.setState({loading: false});
-			})
+		this.props.onOrderBurger(order)
 	}
 
 	inputChangedHandler = (e, inputIdentifier) => {
@@ -199,7 +184,7 @@ class ContactData extends Component {
 				<Button btnType="Success" disabled={!this.state.formIsValid}>Order</Button>
 			</form>
 		);
-		if (this.state.loading) {
+		if (this.props.loading) {
 			form = <Spinner />
 		}
 		return (
@@ -213,9 +198,16 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
 	return {
-		ings: state.ingredients,
-		price: state.totalPrice
+		ings: state.burgerBuilder.ingredients,
+		price: state.burgerBuilder.totalPrice,
+		loading: state.order.loading
 	}
 }
 
-export default connect(mapStateToProps)(ContactData)
+const mapDispatchToProps = dispatch => {
+	return {
+		onOrderBurger: orderData => dispatch(actions.purchaseBurger(orderData))
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios))

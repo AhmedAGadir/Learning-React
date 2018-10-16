@@ -45,6 +45,7 @@ const reducer = (prevState = initialState, action) => {
 					cheese: action.ingredients.cheese,
 					meat: action.ingredients.meat
 				},
+				totalPrice: 4,
 				// we set error to false in case we had a previous error
 				error: false,
 			}
