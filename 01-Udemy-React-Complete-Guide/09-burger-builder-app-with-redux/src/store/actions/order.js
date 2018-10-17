@@ -27,7 +27,7 @@ const purchaseBurgerStart = () => {
 // asynchronous action creators available due to redux thunk
 export const purchaseBurger = orderData => {
 	return dispatch => {
-		// for the loading state
+		// for the loading state (we show a spinner while loading is true)
 		// [NOTE] you can use dispatch more than once
 		dispatch(purchaseBurgerStart())
 		// then attempt to post the data

@@ -33,7 +33,7 @@ const input = props => {
 			inputElement = <input className={inputClasses.join(' ')} onChange={props.changed} value={props.value} {...props.elementConfig} />
 	} 
 	return (
-		<div className={inputClasses.join(' ')}>
+		<div>
 			<label className={classes.Label}>{props.label}</label>
 			{inputElement}
 		</div>
