@@ -4,13 +4,14 @@ const INGREDIENT_PRICES = {
 	salad: 0.5,
 	cheese: 0.4,
 	meat: 1.3,
-	bacon: 0.7,
+	bacon: 0.7
 }
 
 const initialState = {
 	ingredients: null,
 	totalPrice: 4,
-	error: false
+	error: false,
+	building: false
 };
 
 const addIngredient = (prevState, action) => {
@@ -20,7 +21,8 @@ const addIngredient = (prevState, action) => {
 			...prevState.ingredients,
 			[action.ingredientName]: prevState.ingredients[action.ingredientName] + 1
 		},
-		totalPrice: prevState.totalPrice + INGREDIENT_PRICES[action.ingredientName] 
+		totalPrice: prevState.totalPrice + INGREDIENT_PRICES[action.ingredientName],
+		building: true 
 	}
 }
 
@@ -31,7 +33,8 @@ const removeIngredient = (prevState, action) => {
 			...prevState.ingredients,
 			[action.ingredientName]: prevState.ingredients[action.ingredientName] - 1
 		},
-		totalPrice: prevState.totalPrice - INGREDIENT_PRICES[action.ingredientName] 
+		totalPrice: prevState.totalPrice - INGREDIENT_PRICES[action.ingredientName],
+		building: true 
 	}
 }
 
@@ -50,6 +53,7 @@ const setIngredients = (prevState, action) => {
 		totalPrice: 4,
 		// we set error to false in case we had a previous error
 		error: false,
+		building: false
 	}
 }
 

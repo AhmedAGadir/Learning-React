@@ -25,13 +25,14 @@ const purchaseBurgerStart = () => {
 }
 
 // asynchronous action creators available due to redux thunk
-export const purchaseBurger = orderData => {
+export const purchaseBurger = (orderData, token) => {
 	return dispatch => {
 		// for the loading state (we show a spinner while loading is true)
 		// [NOTE] you can use dispatch more than once
 		dispatch(purchaseBurgerStart())
 		// then attempt to post the data
-		axios.post('/orders.json', orderData)
+		// the query param ?auth=token is used on our backend (see database > rules)
+		axios.post('/orders.json?auth=' + token, orderData)
 			.then(response => {
 				// success
 				dispatch(purchaseBurgerSuccess(response.data.name, orderData))
@@ -72,10 +73,15 @@ const fetchOrdersStart = () => {
 	}
 }
 
-export const fetchOrders = () => {
+export const fetchOrders = (token, userId) => {
 	return dispatch => {
 		dispatch(fetchOrdersStart())
-		axios.get('./orders.json')
+		// the query param ?auth=token is used on our backend (see database > rules)
+
+		// axios.get('./orders.json?auth=' + token)
+		// firebase syntax: '&orderBy="userId"&equalTo="'
+		const queryParams = "?auth=" + token + '&orderBy="userId"&equalTo="' + userId + '"';
+		axios.get('./orders.json' + queryParams)
 			.then(res => {
 				const fetchedOrders = []
 				for (let key in res.data) {
