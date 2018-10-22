@@ -10,7 +10,9 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 
-class BurgerBuilder extends Component {
+// to test a containers, export the component as a named export (with export before its declaration)
+// we dont have to worry about testing the fact that its connected to redux, we can trust that redux is working properly
+export class BurgerBuilder extends Component {
 	state = {
 		// ingredients and totalPrice are used a lot throughout our application, so well manage then with redux
 		// the rest of the state can be managed locally

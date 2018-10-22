@@ -1,3 +1,6 @@
+// npm run build to build
+// https://react-my-burger-9b2bc.firebaseapp.com
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
