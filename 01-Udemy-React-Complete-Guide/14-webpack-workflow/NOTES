@@ -1,0 +1,51 @@
+// ======= COME BACK TO, RAN INTO A DIFFICULT ERROR ========
+
+// this is for webpack 3
+// to update to version 4 follow this: https://dev.to/flexdinesh/upgrade-to-webpack-4---5bc5
+$ npm install --save-dev webpack@3
+
+create and setup .gitignore file
+
+// create package.json
+$ npm init
+
+// install dependencies. can use --save-dev to mark a dependency as a development only dependency 
+$ npm install --save-dev webpack webpack-dev-server@2.11.2 
+// a previous version of webpack-dev-server was needed to work with webpack-dev-server
+
+// when someone wants to copy our project they can just run $ npm install to get all of the dependencies
+
+// the next step is a basic folder structure
+// create a src/index.html file and include some boilerplate AND a div#root element
+// create src/index.js, src/index.css, and src/App.js files and the general project setup
+
+// installing dependencies
+$ npm install --save react react-dom react-router-dom
+$ npm install --save-dev babel-loader@7 babel-core babel-preset-react babel-preset-env babel-plugin-syntax-dynamic-import babel-preset-stage-2 babel-polyfill
+$ npm install --save-dev css-loader style-loader postcss-loader autoprefixer
+$ npm install --save-dev url-loader file-loader
+$ npm install --save-dev html-webpack-plugin
+$ npm install --save-dev rimraf
+
+// a webpack.config.js file manages all of these:
+
+// babel-loader is the loader
+// babel-core is the knowledge that the babel library needs  
+// babel-preset-react allows us to support react
+// babel-preset-env allows us to automatically transpile stuff
+// css-loader allows us to use css imports
+// style-loader extracts the css code and injects it at the top of our index.html file
+// postcss-loader allows us to transform css (for css modules, SASS etc)
+// url-loader and file-loader are for images
+// html-webpack-plugin allows us to connect our html file with our output, which is injected by webpack
+// rimraf allows us to delete folders or file (e.g. delete dist folder at the start of every build progress)
+
+// we need a .babelrc file in the root so our project can use the babel presets 
+
+// in the package.json file add these scripts:
+"start": "webpack-dev-server"
+
+now to run scripts run 
+$ npm run [SCRIPT-NAME]
+
+to uninstall a devDependency use npm install -D [NAME]
