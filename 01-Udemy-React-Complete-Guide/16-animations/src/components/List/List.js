@@ -31,7 +31,7 @@ class List extends Component {
             <CSSTransition 
                 // the in property is managed by TransitionGroup
                 key={index}
-                timeout={1000}
+                timeout={500}
                 classNames="fade">
                 <li 
                     className="ListItem" 
@@ -43,7 +43,7 @@ class List extends Component {
             <div>
                 <button className="Button" onClick={this.addItemHandler}>Add Item</button>
                 <p>Click Item to Remove.</p>
-                <TransitionGroup component="ul" className="list">
+                <TransitionGroup component="ul" className="List">
                     {listItems}
                 </TransitionGroup>
             </div>

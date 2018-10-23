@@ -6,7 +6,8 @@ import "./App.css";
 import Modal from "./components/Modal/Modal";
 import Backdrop from "./components/Backdrop/Backdrop";
 import List from "./components/List/List";
-// REACT MOTIOIN IS ANOTHER PACKAGE FOR ANIMATIONS
+// other react animation libraries include react-motion, react-move, react-router-transition
+
 class App extends Component {
   state = {
     showModal: false,
