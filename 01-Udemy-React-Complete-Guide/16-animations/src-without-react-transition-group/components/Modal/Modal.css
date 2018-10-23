@@ -1,0 +1,63 @@
+.Modal {
+    position: fixed;
+    z-index: 200;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 2px #ccc;
+    background-color: white;
+    padding: 10px;
+    text-align: center;
+    box-sizing: border-box;
+    top: 30%;
+    left: 25%;
+    width: 50%;
+}
+
+/* ====== WITH TRANSITIONS ====== */
+/*the display property prevents transitions - dont use it*/
+
+/*.Modal {
+    transition: all 0.5s ease-out;
+}
+
+.Modal.Open {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.Modal.Close {
+    opacity: 0;
+    transform: translateY(-100vh);
+}
+*/
+
+/* ====== WITH ANIMATIONS AND TRANSITIONS ====== */
+
+.Modal {
+    transition: all 0.5s ease-out;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+}
+
+.Modal.Open {
+    animation-name: openModal
+}
+
+.Modal.Close {
+    animation-name: none;
+    opacity: 0;
+    transform: translateY(-100vh);
+}
+
+@keyframes openModal {
+    0% {
+        opacity: 0;
+        transform: translateY(-100vh);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(30%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

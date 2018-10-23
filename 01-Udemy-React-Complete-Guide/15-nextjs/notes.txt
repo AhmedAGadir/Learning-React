@@ -1,0 +1,23 @@
+// documentation : https://github.com/zeit/next.js/
+
+// copy in the scripts bit from the documentation
+
+$ npm run dev
+
+// nextjs pre-renders the content we load as pages on the server with automatic code-splitting/lazy loading sothat google crawlers can do SEO with our page
+
+$ npm init
+
+$ npm install --save react react-dom nextjs 
+
+// we dont use react-router with nextjs, instead a use a folder and file structure to reflect our URL in the file system.
+
+// cant use css modules in nextjs, however nextjs offers its own way of doing it (See User component)
+
+// for deployement you need to deploy the entire project folder (because you need to install the node_modules folder)
+// note: you need a host thats able to run node.js as nextjs uses and only runs on node.js (e.g. AWS elastic beanstalk or Heroku)
+// after shipping the entire project then run the following on your server:
+$ npm install
+$ npm start 
+(npm start is different than in create-react-app -- see package.json)
+// then the project will be running on the server

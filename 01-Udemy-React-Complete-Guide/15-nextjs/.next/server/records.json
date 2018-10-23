@@ -1,0 +1,57 @@
+{
+  "modules": {
+    "byIdentifier": {
+      "external \"react\"": 0,
+      "external \"next/link\"": 1,
+      "external \"next/router\"": 2,
+      "external \"styled-jsx/style\"": 3,
+      "multi ./pages/_error.js": 4,
+      "../../../../../Ahmed Breezy\\GitHub\\Learning-React\\01-Udemy-React-Complete-Guide\\15-nextjs\\node_modules\\next\\dist\\build\\webpack\\loaders\\next-babel-loader.js??ref--4!../../../../../Ahmed Breezy\\GitHub\\Learning-React\\01-Udemy-React-Complete-Guide\\15-nextjs\\pages\\_error.js": 5,
+      "multi ./pages/auth/user.js": 6,
+      "multi ./pages/index.js": 7,
+      "../../../../../Ahmed Breezy\\GitHub\\Learning-React\\01-Udemy-React-Complete-Guide\\15-nextjs\\node_modules\\next\\dist\\build\\webpack\\loaders\\next-babel-loader.js??ref--4!../../../../../Ahmed Breezy\\GitHub\\Learning-React\\01-Udemy-React-Complete-Guide\\15-nextjs\\pages\\index.js": 8,
+      "multi ../../../../../Ahmed Breezy\\GitHub\\Learning-React\\01-Udemy-React-Complete-Guide\\15-nextjs\\node_modules\\next\\dist\\pages\\_app.js": 9,
+      "../../../../../Ahmed Breezy\\GitHub\\Learning-React\\01-Udemy-React-Complete-Guide\\15-nextjs\\node_modules\\next\\dist\\pages\\_app.js": 10,
+      "external \"next/app\"": 11,
+      "multi ../../../../../Ahmed Breezy\\GitHub\\Learning-React\\01-Udemy-React-Complete-Guide\\15-nextjs\\node_modules\\next\\dist\\pages\\_document.js": 12,
+      "../../../../../Ahmed Breezy\\GitHub\\Learning-React\\01-Udemy-React-Complete-Guide\\15-nextjs\\node_modules\\next\\dist\\pages\\_document.js": 13,
+      "external \"next/document\"": 14,
+      "../../../../../Ahmed Breezy\\GitHub\\Learning-React\\01-Udemy-React-Complete-Guide\\15-nextjs\\node_modules\\next\\dist\\build\\webpack\\loaders\\next-babel-loader.js??ref--4!../../../../../Ahmed Breezy\\GitHub\\Learning-React\\01-Udemy-React-Complete-Guide\\15-nextjs\\pages\\auth\\user.js 4f4ebc692afb366aa4fc3ddfc5711263": 15
+    },
+    "usedIds": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 5,
+      "6": 6,
+      "7": 7,
+      "8": 8,
+      "9": 9,
+      "10": 10,
+      "11": 11,
+      "12": 12,
+      "13": 13,
+      "14": 14,
+      "15": 15
+    }
+  },
+  "chunks": {
+    "byName": {
+      "static\\vKNv8it9hcre1CdYaPPsc\\pages\\_error.js": 0,
+      "static\\vKNv8it9hcre1CdYaPPsc\\pages\\auth\\user.js": 1,
+      "static\\vKNv8it9hcre1CdYaPPsc\\pages\\index.js": 2,
+      "static\\vKNv8it9hcre1CdYaPPsc\\pages\\_app.js": 3,
+      "static\\vKNv8it9hcre1CdYaPPsc\\pages\\_document.js": 4
+    },
+    "bySource": {},
+    "usedIds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  }
+}
