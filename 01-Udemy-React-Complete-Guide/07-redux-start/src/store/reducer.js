@@ -2,7 +2,7 @@
 
 
 
-// [NOT USING] import * as actionTypes from './actions';
+// [NOT USING] import * as actionTypes from './actionTypes';
 
 const initialState = {
 	counter: 0,
@@ -10,12 +10,12 @@ const initialState = {
 }
 
 const reducer = (prevState = initialState, action) => {
-	
+
 	// [IMPORTANT] whats returned from the reduce doesnt merge with the old state (like in setState),
 	// so you have to make sure you return a copy of the previous state (immutably) and change whatever it is you need to change (the spread operator makes this easier) 
 
 	// dont need to include breaks; since were returning something every time
-	switch ( action.type ) {
+	switch (action.type) {
 		// *** ==== can now use actionTypes.INCREMENT etc.
 		// the clever part is that if we mistype of our properties, well get an error
 		// this is useful for larger applications
@@ -45,7 +45,7 @@ const reducer = (prevState = initialState, action) => {
 				...prevState,
 				// [USEFUL INFO] can use .concat to create immutable copies of arrays (if you dont want to add to them simply use .concat())
 				// can use new Date() to generate id's (number of ms since 1970 or something), its not a production-level solution though as quickly pressing the button will generate the same id
-				results: prevState.results.concat({id: new Date(), value: prevState.counter})
+				results: prevState.results.concat({ id: new Date(), value: prevState.counter })
 			}
 		case 'DELETE_RESULT':
 			// ======== COPYING OBJECTS WITH NESTED ARRAYS IMMUTABLY (AND REMOVING FROM THE ARRAYS) =========
@@ -57,11 +57,11 @@ const reducer = (prevState = initialState, action) => {
 
 			// method 2 
 			const updatedArray = prevState.results.filter(result => result.id !== action.resultId)
-				return {
+			return {
 				...prevState,
 				results: updatedArray
 			}
-		default: 
+		default:
 			return prevState
 	}
 }
