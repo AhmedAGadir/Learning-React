@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://www.ag-grid.com/react-redux-integration-pt1/ -->
+<html lang="en" class="gr__ag-grid_com wf-roboto-n4-active wf-roboto-n5-active wf-roboto-n3-active wf-roboto-n9-active wf-active"><head lang="en"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style class="anchorjs"></style><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+    <script type="text/javascript" async="" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/analytics.js"></script><script async="" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/analytics.js"></script><script async="" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/gtm.js"></script><script>var dataLayer = [{"default":true}]</script>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TW77RR3');</script>
+<!-- End Google Tag Manager -->
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <!-- link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,900" rel="stylesheet" -->
+    <link rel="stylesheet" href="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/font-awesome.min.css">
+
+    <title>React Redux Integration: Part 1 of a detailed guide from ag-Grid</title>
+
+    <meta name="description" content="ag-Grid is a feature-rich datagrid available in Free or Enterprise versions. This is a detailed guide on how to use with React and Redux. We explore how a React component using ag-Grid can take advantage of a Redux store to simplify state management.">
+    <meta name="keywords" content="React Redux Grid">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ag-Grid">
+    <meta property="og:description" content="ag-Grid is a feature-rich datagrid available in Free or Enterprise versions. This is a detailed guide on how to use with React and Redux. We explore how a React component using ag-Grid can take advantage of a Redux store to simplify state management.">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@ceolter">
+    <meta name="twitter:title" content="ag-Grid">
+    <meta name="twitter:description" content="ag-Grid is a feature-rich datagrid available in Free or Enterprise versions. This is a detailed guide on how to use with React and Redux. We explore how a React component using ag-Grid can take advantage of a Redux store to simplify state management.">
+
+    
+    
+
+    <link rel="icon" type="image/png" sizes="32x32" href="https://www.ag-grid.com/_assets/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.ag-grid.com/_assets/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" href="https://www.ag-grid.com/_assets/favicons/favicon.ico">
+    
+    <script async="" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/f.txt"></script>
+<script>
+ (adsbygoogle = window.adsbygoogle || []).push({
+   google_ad_client: "ca-pub-1469890206560730",
+   enable_page_level_ads: true
+ });
+</script><link rel="stylesheet" href="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/docs.css">
+<link rel="stylesheet" href="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/css" media="all"><style type="text/css">#mc_embed_signup input.mce_inline_error { border-color:#6B0505; } #mc_embed_signup div.mce_inline_error { margin: 0 0 1em 0; padding: 5px 10px; background-color:#6B0505; font-weight: bold; z-index: 1; color:#fff; }</style><script charset="utf-8" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/button.e96bb6acc0f8bda511c0c46a84ee18e4.js"></script><script async="" type="text/javascript" charset="utf-8" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/recorder.js"></script><style type="text/css" id="a1330180-7ade-4932-8313-61a19ebd9892">.c2a8ec80-ba6a-4038-be96-fba278b94516 .close:hover, .c2a8ec80-ba6a-4038-be96-fba278b94516 .close:focus { background-image: url("data:image/png;base64,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"); }
+
+.c2a8ec80-ba6a-4038-be96-fba278b94516 .close { position: absolute; opacity: 0; transform: scale(0.6); left: -8px; top: -8px; width: 16px; height: 16px; cursor: pointer; z-index: 1000; transition: opacity 275ms ease 0s, transform 275ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 0s, background 175ms ease 0s; background: url("data:image/png;base64,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") no-repeat border-box border-box; }
+
+@keyframes fontbulger { 
+  0% { transform: scale(1); }
+  100% { transform: scale(1.2); }
+}
+
+.c2a8ec80-ba6a-4038-be96-fba278b94516 { animation: fontbulger 0.2s ease-in-out 0s 2 alternate none running; background-color: rgba(238, 238, 238, 0.8); border-radius: 0.2em; color: rgb(170, 170, 170); font: inherit; position: relative; transition-duration: 0.5s; transition-property: color, background-color; transition-timing-function: ease-in-out; box-shadow: rgb(238, 238, 238) 0px 0px 12px; }
+
+.default-red-aa94e3d5-ab2f-4205-b74e-18ce31c7c0ce { background-color: rgba(255, 128, 128, 0.8); color: rgb(0, 0, 0); box-shadow: rgb(255, 128, 128) 0px 0px 12px; }
+
+.default-orange-da01945e-1964-4d27-8a6c-3331e1fe7f14 { background-color: rgba(255, 210, 170, 0.8); color: rgb(0, 0, 0); box-shadow: rgb(255, 210, 170) 0px 0px 12px; }
+
+.default-yellow-aaddcf5c-0e41-4f83-8a64-58c91f7c6250 { background-color: rgba(255, 255, 170, 0.8); color: rgb(0, 0, 0); box-shadow: rgb(255, 255, 170) 0px 0px 12px; }
+
+.default-green-c4d41e0a-e40f-4c3f-91ad-2d66481614c2 { background-color: rgba(170, 255, 170, 0.8); color: rgb(0, 0, 0); box-shadow: rgb(170, 255, 170) 0px 0px 12px; }
+
+.default-cyan-f88e8827-e652-4d79-a9d9-f6c8b8ec9e2b { background-color: rgba(170, 255, 255, 0.8); color: rgb(0, 0, 0); box-shadow: rgb(170, 255, 255) 0px 0px 12px; }
+
+.default-purple-c472dcdb-f2b8-41ab-bb1e-2fb293df172a { background-color: rgba(255, 170, 255, 0.8); color: rgb(0, 0, 0); box-shadow: rgb(255, 170, 255) 0px 0px 12px; }
+
+.default-grey-da7cb902-89c6-46fe-b0e7-d3b35aaf237a { background-color: rgba(119, 119, 119, 0.8); color: rgb(255, 255, 255); box-shadow: rgb(119, 119, 119) 0px 0px 12px; }
+
+</style></head>
+
+<body ng-app="documentation" data-gr-c-s-loaded="true" style="zoom: 1;" class="ng-scope wpsn-snappable">
+<header id="nav" class="compact">
+<nav>
+    <a id="logo" href="https://www.ag-grid.com/" title="The Best HTML 5 Grid in the World">ag-Grid</a>
+
+    <button id="navbar-toggle" type="button" data-toggle="collapse" data-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span>&nbsp;</span>
+    </button>
+    <div class="collapse navbar-collapse" id="main-nav">
+                    <ul>
+                <li class="">
+                    <a href="https://www.ag-grid.com/example.php">Demo</a>
+                </li>
+                <li class="">
+                    <a href="https://www.ag-grid.com/javascript-grid-getting-started/">Getting Started</a>
+                </li>
+                <li class="">
+                    <a href="https://www.ag-grid.com/features-overview/">Features Overview</a>
+                </li>
+                <li class="active">
+                    <a href="https://www.ag-grid.com/documentation-main/documentation.php">Documentation</a>
+                </li>
+                <li>
+                    <a href="http://blog.ag-grid.com/">Blog</a>
+                </li>
+
+<!--
+                <li class="">
+                    <a href="/support.php">Support</a>
+                </li>
+-->
+
+                <li class="">
+                    <a href="https://www.ag-grid.com/about.php">About</a>
+                </li>
+
+                <li class="">
+                    <a href="https://www.ag-grid.com/license-pricing.php">Pricing</a>
+                </li>
+
+                                <li id="trial" class="">
+                    <a href="https://www.ag-grid.com/start-trial.php">Free Trial</a>
+                </li>
+                            </ul>
+         
+    </div>
+</nav>
+</header>
+
+<div id="documentation">
+    <div>
+    <aside id="side-nav">
+        <button id="side-nav-toggle" type="button" data-toggle="collapse" data-target="#side-nav-container" aria-controls="side-nav-container" aria-expanded="false" aria-label="Toggle navigation"><span>&nbsp;</span></button>
+
+        <div id="search-wrapper">
+            <span class="algolia-autocomplete" style="position: relative; display: inline-block; direction: ltr;"><input type="text" id="search-input" placeholder="Search Docs" class="aa-input" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="both" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;"><span id="kbd-hint" title="press S to focus the search field"> <kbd>s</kbd> </span><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: -apple-system, system-ui, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-size: 16px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: normal; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><span class="aa-dropdown-menu" role="listbox" id="algolia-autocomplete-listbox-0" style="position: absolute; top: 100%; z-index: 100; display: none; left: 0px; right: auto;"><div class="aa-dataset-1"></div></span></span>
+        </div>
+
+    <div id="side-nav-container" class="collapse">
+        <ul><li class="expanded"><span>Guides</span><ul><li><span>Vanilla JavaScript</span><ul><li>                <a href="https://www.ag-grid.com/javascript-grid-npm/">Install with NPM</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-download/">Download for Local Usage</a></li><li>                <a href="https://www.ag-grid.com/ag-grid-typescript-webpack-2/">Use with TypeScript</a></li></ul></li><li><span>Angular</span><ul><li>                <a href="https://www.ag-grid.com/angular-more-details/">Ag-Grid Angular Overview</a></li><li><span>Building</span><ul><li>                <a href="https://www.ag-grid.com/ag-grid-angular-systemjs/">SystemJS</a></li><li>                <a href="https://www.ag-grid.com/ag-grid-angular-webpack-3/">Webpack 3</a></li><li>                <a href="https://www.ag-grid.com/ag-grid-angular-webpack-2/">Webpack 2</a></li><li>                <a href="https://www.ag-grid.com/ag-grid-angular-webpack/">Webpack</a></li></ul></li><li>                <a href="https://www.ag-grid.com/example-angular-rxjs/">Use with RxJS</a></li></ul></li><li class="expanded"><span>React</span><ul><li>                <a href="https://www.ag-grid.com/react-more-details/">Ag-Grid React Overview</a></li><li class="expanded">                <a href="https://www.ag-grid.com/react-redux-integration-pt1/" class="active">Redux Integration Part 1</a></li><li>                <a href="https://www.ag-grid.com/react-redux-integration-pt2/">Redux Integration Part 2</a></li></ul></li><li>                <a href="https://www.ag-grid.com/best-vuejs-data-grid/">Vue.js</a></li><li><span>Server-side Operations</span><ul><li>                <a href="https://www.ag-grid.com/graphql-server-side-operations/">Using GraphQL &amp; MySQL</a></li><li>                <a href="https://www.ag-grid.com/oracle-server-side-operations/">Using Java &amp; Oracle</a></li><li>                <a href="https://www.ag-grid.com/spark-server-side-operations/">Using Java &amp; Apache Spark</a></li></ul></li><li>                <a href="https://www.ag-grid.com/javascript-grid-rxjs/">Use  With RxJS</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-responsiveness/">Resize With Parent Container</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-testing/">Test With Protractor &amp; Jasmine</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-openfin/">Use in OpenFin</a></li></ul></li><li><span>Reference</span><ul><li>                <a href="https://www.ag-grid.com/javascript-grid-reference-overview/">Overview</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-properties/">Grid Properties</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-events/">Grid Events</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-callbacks/">Grid Callbacks</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-api/">Grid API</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-column-properties/">Column Properties</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-column-api/">Column API</a></li></ul></li><li><span>Features</span><ul><li>                <a href="https://www.ag-grid.com/javascript-grid-features/">Overview</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-column-definitions/">Column Definitions</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-grouping-headers/">Column Groups</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-column-header/">Column Headers</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-resizing/">Column Resizing</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-column-moving/">Column Moving</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-filtering/" class="has-children">Column Filter</a><ul><li>                <a href="https://www.ag-grid.com/javascript-grid-filter-text/">Text Filter</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-filter-number/">Number Filter</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-filter-date/">Date Filter</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-filter-set/">Set Filter<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-filter-custom/">Custom Filter</a></li></ul></li><li>                <a href="https://www.ag-grid.com/javascript-grid-filter-quick/">Quick Filter</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-filter-external/">External Filter</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-sorting/">Row Sorting</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-row-dragging/">Row Dragging</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-selection/">Row Selection</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-range-selection/">Range Selection<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-width-and-height/">Grid Size</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-column-spanning/">Column Spanning</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-row-spanning/">Row Spanning</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-pinning/">Column Pinning</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-row-pinning/">Row Pinning</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-row-height/">Row Height</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-cell-styles/">Cell Styles</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-row-styles/">Row Styles</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-value-handlers/" class="has-children">Value Handlers</a><ul><li>                <a href="https://www.ag-grid.com/javascript-grid-value-getters/">Getters &amp; Formatters</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-value-setters/">Setters and Parsers</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-cell-expressions/">Expressions</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-value-cache/">Value Cache</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-reference-data/">Reference Data</a></li></ul></li><li>                <a href="https://www.ag-grid.com/javascript-grid-cell-rendering/">Cell Rendering</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-cell-editing/">Cell Editing</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-keyboard-navigation/">Keyboard Navigation</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-touch/">Touch Support</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-animation/">Animation</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-accessing-data/">Accessing Data</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-pagination/">Pagination</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-data-update/">Updating Data</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-refresh/">View Refresh</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-change-detection/">Change Detection</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-internationalisation/">Internationalisation</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-performance/">Performance</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-accessibility/">Accessibility</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-full-width-rows/">Full Width Rows</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-master-detail/">Master / Detail<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-aligned-grids/">Aligned Grids</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-export/">CSV Export</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-excel/">Excel Export<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-rtl/">RTL</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-icons/">Custom Icons</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-overlays/">Overlays</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-for-print/">Printing</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-grouping/">Row Grouping<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-tree-data/">Tree Data<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-aggregation/">Aggregation<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-pivoting/">Pivoting<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-tool-panel/" class="has-children">Tool Panels<span class="enterprise-icon">e</span></a><ul><li>                <a href="https://www.ag-grid.com/javascript-grid-side-bar/">Side Bar<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-tool-panel-columns/">Columns Tool Panel<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-tool-panel-filters/">Filters Tool Panel<span class="enterprise-icon">e</span></a></li></ul></li><li>                <a href="https://www.ag-grid.com/javascript-grid-clipboard/">Clipboard<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-column-menu/">Column Menu<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-context-menu/">Context Menu<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-status-bar/">Status Bar<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-set-license/">License Key<span class="enterprise-icon">e</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-context/">Context</a></li></ul></li><li><span>Row Models</span><ul><li>                <a href="https://www.ag-grid.com/javascript-grid-row-models/">Overview</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-row-node/">Row Node</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-client-side-model/">Client-side</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-infinite-scrolling/">Infinite Scrolling</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-server-side-model/" class="has-children">Server-side<span class="enterprise-icon">e</span></a><ul><li>                <a href="https://www.ag-grid.com/javascript-grid-server-side-model-infinite/">Infinite Scroll</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-server-side-model-grouping/">Row Grouping</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-server-side-model-pivoting/">Pivoting</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-server-side-model-pagination/">Pagination</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-server-side-model-selection/">Row Selection</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-server-side-model-row-height/">Row Height</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-server-side-model-tree-data/">Tree Data</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-server-side-model-changing-columns/">Changing Columns</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-server-side-model-crud/">CRUD</a></li></ul></li><li>                <a href="https://www.ag-grid.com/javascript-grid-viewport/">Viewport<span class="enterprise-icon">e</span></a></li></ul></li><li><span>Themes</span><ul><li>                <a href="https://www.ag-grid.com/javascript-grid-styling/">Overview</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-themes/balham-theme.php">Balham<span class="new-marker">new</span></a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-themes/material-theme.php">Material</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-themes/fresh-theme.php">Fresh </a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-themes/blue-theme.php">Blue</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-themes/dark-theme.php">Dark</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-themes/bootstrap-theme.php">Bootstrap</a></li></ul></li><li><span>Components</span><ul><li>                <a href="https://www.ag-grid.com/javascript-grid-components/">Overview</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-cell-rendering-components/">Cell Renderer</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-cell-editor/">Cell Editor</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-filter-component/">Filter Component</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-floating-filter-component/">Floating Filter Component</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-header-rendering/">Header Component</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-date-component/">Date Component</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-overlay-component/">Overlay Component</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-status-bar-component/">Status Bar Component</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-tool-panel-component/">Tool Panel Component</a></li></ul></li><li><span>Examples</span><ul><li>                <a href="https://www.ag-grid.com/javascript-grid-examples/">Overview</a></li><li>                <a href="https://www.ag-grid.com/example-angular-material-design/">Angular &amp; Material Design</a></li><li>                <a href="https://www.ag-grid.com/example-expressions-and-context/">Expressions &amp; Context</a></li><li>                <a href="https://www.ag-grid.com/example-excel-import/">Import Excel</a></li><li>                <a href="https://www.ag-grid.com/example-gallery/">Gallery</a></li><li>                <a href="https://www.ag-grid.com/javascript-grid-graphing/">Graphing</a></li></ul></li></ul><script>
+dataLayer.push({"category":"guides","tech":"react"});
+</script>
+        <div id="side-bar-announcements">
+
+</div>
+<br>
+
+    <div id="ag-grid-conf">
+        <p></p>
+        <div class="card card-highlight">
+            <div class="card-body">
+                <h5 class="card-title"><a href="https://www.ag-grid-conf.com/">ag-Grid Conf</a></h5>
+                Our ag-Grid Conf videos are now live!<br><br>
+                <a href="https://www.youtube.com/watch?v=rT0vQejPcrs&amp;t=3s"><img src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/complex-performance.png" style="width: 100%"></a>
+                <br><br>
+                        <p class="text-right">
+            <a class="learn-more" href="http://ag-grid-conf.com/">All Videos</a>
+        </p>
+            </div>
+        </div>
+
+<br>
+
+<p>Latest Release:</p>
+
+<div class="card card-highlight">
+    <div class="card-body">
+        <h5 class="card-title"><a href="https://www.ag-grid.com/ag-grid-changelog/?fixVersion=19.1.4">Version 19.1.4 Released</a></h5>
+        <h6 class="card-subtitle mb-2 text-muted">Nov 22</h6>
+        <p class="card-text">
+            Patch release with the bug fixes:
+        </p>
+
+        <p class="text-right">
+            <a class="learn-more" href="https://www.ag-grid.com/ag-grid-changelog/?fixVersion=19.1.4">Change Log</a>
+        </p>
+    </div>
+</div>
+<br>
+<div class="card card-highlight">
+    <div class="card-body">
+        <h5 class="card-title"><a href="https://www.ag-grid.com/ag-grid-changelog/?fixVersion=19.1.1">Version 19.1.1 Released</a></h5>
+        <h6 class="card-subtitle mb-2 text-muted">Oct 30</h6>
+        <p class="card-text">
+            Minor release with the following feature highlights:
+        </p><ul>
+            <li>
+                <a class="learn-more" href="https://www.ag-grid.com/best-polymer-data-grid/">Polymer 3 Datagrid</a>.
+            </li>
+            <li>
+                <a class="learn-more" href="https://www.ag-grid.com/javascript-grid-excel/">Export to XLSX</a>.
+            </li>
+            <li>
+                <a class="learn-more" href="https://www.ag-grid.com/javascript-grid-column-definitions/#column-changes/">Allow Delta
+                    Changes to
+                    Column Definitions</a>.
+            </li>
+        </ul>
+        <p></p>
+
+        <p class="text-right">
+            <a class="learn-more" href="https://www.ag-grid.com/ag-grid-changelog/?fixVersion=19.1.1">Change Log</a>
+        </p>
+    </div>
+</div>
+
+<hr>
+
+<!-- Begin Mailchimp Signup Form -->
+<link href="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/classic-10_7.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+    #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+    /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
+       We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+</style>
+<div id="mc_embed_signup">
+    <form action="https://ag-grid.us11.list-manage.com/subscribe/post?u=9b44b788c97fa5b498fbbc9b5&amp;id=9353cf87ce" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate ng-pristine ng-valid" target="_blank" novalidate="novalidate">
+        <div id="mc_embed_signup_scroll">
+            <h2>ag-Grid Mailing List</h2>
+            <div class="mc-field-group">
+                <label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
+                </label>
+                <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" aria-required="true" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+            </div>
+            <div class="mc-field-group">
+                <label for="mce-FNAME">First Name </label>
+                <input type="text" value="" name="FNAME" class="" id="mce-FNAME">
+            </div>
+            <br>
+            <div class="mc-field-group input-group">
+                <strong>Select your preference</strong>
+                <ul><li><input type="checkbox" value="1" name="group[18365][1]" id="mce-group[18365]-18365-0"><label for="mce-group[18365]-18365-0"> Angular</label></li>
+                    <li><input type="checkbox" value="2" name="group[18365][2]" id="mce-group[18365]-18365-1"><label for="mce-group[18365]-18365-1"> React</label></li>
+                    <li><input type="checkbox" value="4" name="group[18365][4]" id="mce-group[18365]-18365-2"><label for="mce-group[18365]-18365-2"> General</label></li>
+                </ul>
+            </div>
+            <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+            </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_9b44b788c97fa5b498fbbc9b5_9353cf87ce" tabindex="-1" value=""></div>
+            <div class="clear"><input type="submit" style="background-color: #0084e7" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/mc-validate.js"></script><script type="text/javascript">(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+<!--End mc_embed_signup-->
+
+<div id="side-bar-announcements" style="margin-top: 10px">
+        <p>From our <a href="https://medium.com/ag-grid/">blog</a>:</p>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><a href="https://medium.com/ag-grid/learn-to-customize-react-grid-in-less-than-10-minutes-2ce6845646bb">Learn to customize React grid in less than 10 minutes</a></h5>
+                <h6 class="card-subtitle mb-2 text-muted">Oct 16</h6>
+                <p class="card-text">Implement custom filtering logic, cell editor and renderer in this walk through.</p>
+                <p class="text-right">
+                    <a class="learn-more" href="https://medium.com/ag-grid/learn-to-customize-react-grid-in-less-than-10-minutes-2ce6845646bb">Full
+                        Article</a>
+                </p>
+                <h5 class="card-title"><a href="https://medium.com/ag-grid/learn-to-customize-angular-grid-in-less-than-10-minutes-88005d53808d?source=collection_home---2------0---------------------">Learn to customize Angular grid in less than 10 minutes</a></h5>
+                <h6 class="card-subtitle mb-2 text-muted">Oct 16</h6>
+                <p class="card-text">Implement custom filtering logic, cell editor and renderer in this walk through.</p>
+                <p class="text-right">
+                    <a class="learn-more" href="https://medium.com/ag-grid/learn-to-customize-angular-grid-in-less-than-10-minutes-88005d53808d?source=collection_home---2------0---------------------">Full Article
+                    </a>
+                </p>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <p>Work at ag-Grid:</p>
+                <h5 class="card-title"><a href="https://www.ag-grid.com/ag-grid-jobs-board/">JavaScript Developers</a></h5>
+                <h6 class="card-subtitle mb-2 text-muted">London, United Kingdom</h6>
+                <p class="card-text">
+                    Would you like to join the ag-Grid team in London<br>
+                    <br>
+                    Check the <a href="https://www.ag-grid.com/ag-grid-jobs-board/">jobs board</a>
+                </p>
+            </div>
+        </div>    </div>
+    </div></div></aside>
+
+    <section id="content" class="">
+    <h1 id="redux-integration"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#redux-integration" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>
+        Redux Integration - Part 1
+    </h1>
+
+    <p class="lead">
+       This section introduces how React components using the ag-Grid Data Table can take advantage of a Redux store to
+       simplify state management.
+    </p>
+
+    <p>
+        We will use the concrete example of a file view component to demonstrate how to move local component state to
+        a Redux store. Updates to the files state will be retrieved from the Redux store, while UI events to add and
+        delete files will be dispatched to the Redux store for processing.
+    </p>
+
+    <p>
+        <img src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/redux-file-view.png" width="90%" style="border: 1px solid grey" alt="Redux Integration File View">
+    </p>
+
+    <p>
+        As shown above, files are grouped by folder, and files can be added or deleted via context menu options.
+    </p>
+
+    <note><div class="note"><ng-transclude>This section assumes the reader is familiar with React and ES6 Javascript features.</ng-transclude></div></note>
+
+    <h2 id="do-i-need-redux"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#do-i-need-redux" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>Do I need Redux?</h2>
+
+    <p>Redux excels in applications with complex state interactions. If you are passing unrelated data through several
+       layers of components or data is shared and synchronized between different parts your application, you could
+       benefit from Redux.</p>
+
+    <p>When using Redux, you move state from your components into a single immutable store, where state is replaced rather
+       than mutated. This combined with its unidirectional data flow can make it easier to test and reason about state
+       changes in your application.</p>
+
+    <h2 id="redux-architecture"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#redux-architecture" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>Redux Architecture</h2>
+
+    <p>Redux has a single store which contains all application state. It has one Root Reducer which is responsible for
+       transforming the application state and is typically created by combining several smaller reducers.</p>
+
+    <img style="margin-left: 15%" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/redux-store.png" alt="Redux Store">
+
+    <p>Actions describe the operation the reducer should perform on the state. They may also contain an optional payload
+       containing data used by the reducer to transform the state. For example an action to create a new file might
+       look like this:
+    </p>
+
+<snippet language="js" class="ng-isolate-scope"><pre><code><span class="token punctuation">{</span>
+    type<span class="token punctuation">:</span> ‘<span class="token constant">NEW_FILE</span>’<span class="token punctuation">,</span>
+    payload<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        folder<span class="token punctuation">:</span> <span class="token string">'pdf'</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></snippet>
+
+    <p>Actions are dispatched to the store from UI components as illustrated below:</p>
+
+    <img style="margin-left: 2%" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/redux-data-flow.png" width="100%" alt="Redux Data Flow">
+
+    <p>The reducer that is associated with the action type will then transform the state which is saved in the store.
+        Reducers are pure functions which receive the current application state along with the action to be performed on
+        that state to produce some new state.
+    </p>
+
+    <p style="margin-left: 20%; font-size: 20px"><b> (currentState, action) =&gt; newState </b></p>
+
+    <p>UI components can subscribe to the store for specific parts of the state in order to be notified when there are
+        changes to the store. This allows components to retrieve the latest state to refresh the view.
+    </p>
+
+    <h2 id="creating-redux-file-store"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#creating-redux-file-store" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>Creating our Redux File Store</h2>
+
+    <p>
+        To create our Redux File Store we will use the <code>createStore</code> factory method from the redux module.
+        In our example we just require a single reducer which is supplied along with the initial state as shown below:
+    </p>
+
+<snippet language="jsx" class="ng-isolate-scope"><pre><code><span class="token comment">// store.jsx</span>
+
+<span class="token keyword">import</span> <span class="token punctuation">{</span>createStore<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> fileReducer <span class="token keyword">from</span> <span class="token string">'./reducers/fileReducer.jsx'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> initialState <span class="token operator">=</span> <span class="token punctuation">{</span>
+    files<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> file<span class="token punctuation">:</span> <span class="token string">'notes.txt'</span><span class="token punctuation">,</span> folder<span class="token punctuation">:</span> <span class="token string">'txt'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> file<span class="token punctuation">:</span> <span class="token string">'book.pdf'</span><span class="token punctuation">,</span> folder<span class="token punctuation">:</span> <span class="token string">'pdf'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span> file<span class="token punctuation">:</span> <span class="token string">'cv.pdf'</span><span class="token punctuation">,</span> folder<span class="token punctuation">:</span> <span class="token string">'pdf'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token comment">// more files ...</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">createStore</span><span class="token punctuation">(</span>fileReducer<span class="token punctuation">,</span> initialState<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></snippet>
+
+    <p>Note that in larger applications there will typically be several reducers which are combined to create a single
+       root reducer. This is done using the <code>combineReducers</code> function also from Redux.</p>
+
+    <p>Our File View will allow users to add and delete files. The logic for handling these
+       operations will be defined in the <code>fileReducer</code> shown below:
+    </p>
+
+<snippet language="jsx" class="ng-isolate-scope"><pre><code><span class="token comment">// reducers/fileReducer.jsx</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">fileReducer</span><span class="token punctuation">(</span>state <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> action<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> payload <span class="token operator">=</span> action<span class="token punctuation">.</span>payload<span class="token punctuation">;</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>action<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> types<span class="token punctuation">.</span><span class="token constant">NEW_FILE</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token punctuation">{</span>
+                files<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                    <span class="token operator">...</span>state<span class="token punctuation">.</span>files<span class="token punctuation">,</span>
+                    <span class="token function">newFile</span><span class="token punctuation">(</span>state<span class="token punctuation">.</span>files<span class="token punctuation">,</span> payload<span class="token punctuation">.</span>folder<span class="token punctuation">)</span>
+                <span class="token punctuation">]</span>
+            <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> types<span class="token punctuation">.</span><span class="token constant">DELETE_FILE</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token punctuation">{</span>
+                files<span class="token punctuation">:</span> <span class="token function">deleteFile</span><span class="token punctuation">(</span>state<span class="token punctuation">.</span>files<span class="token punctuation">,</span> payload<span class="token punctuation">.</span>id<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">default</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> state<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></snippet>
+
+    <p>The <code>fileReducer</code> handles each action type with a case clause within a switch statement. It's important
+        to understand that the reducer doesn't modify the state directly but instead returns a new version for the store
+        to persist. As a result there must not be any side effects contained within the reducer.
+    </p>
+
+    <note><div class="note"><ng-transclude>The helper methods used in the reducer are omitted for brevity but can be examined in the code tab provided
+        in the example at the end of this section.
+    </ng-transclude></div></note>
+
+    <p>
+        Rather than create action objects directly, a more elegant approach is to create helper functions referred to as
+        Action Creators as shown below:
+    </p>
+
+
+<snippet class="ng-isolate-scope"><pre><code><span class="token comment">// actions/fileActions.jsx</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> actions <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token function">newFile</span><span class="token punctuation">(</span>folder<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span>
+            type<span class="token punctuation">:</span> types<span class="token punctuation">.</span><span class="token constant">NEW_FILE</span><span class="token punctuation">,</span>
+            payload<span class="token punctuation">:</span> <span class="token punctuation">{</span>folder<span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">deleteFiles</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span>
+            type<span class="token punctuation">:</span> types<span class="token punctuation">.</span><span class="token constant">DELETE_FILES</span><span class="token punctuation">,</span>
+            payload<span class="token punctuation">:</span> <span class="token punctuation">{</span>id<span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></snippet>
+
+    <h2 id="adding-provider-component"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#adding-provider-component" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>Adding the Provider Component</h2>
+
+    <p>Now that we have created our Redux store, we need to make it available to our React <code>FileView</code>
+       component. This is achieved through the <code>Provider</code> component from the react-redux project.
+    </p>
+
+    <p>In the entry point of our application we wrap the <code>FileView</code> component in the <code>Provider</code> component
+       as shown below:
+    </p>
+
+<snippet class="ng-isolate-scope"><pre><code><span class="token comment">// index.jsx</span>
+
+<span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>render<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-dom'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>Provider<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-redux'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">'./store.jsx'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> FileView <span class="token keyword">from</span> <span class="token string">'./FileView.jsx'</span><span class="token punctuation">;</span>
+
+<span class="token function">render</span><span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>Provider store<span class="token operator">=</span><span class="token punctuation">{</span>store<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span>FileView<span class="token operator">/</span><span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>Provider<span class="token operator">&gt;</span><span class="token punctuation">,</span>
+    document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'root'</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></snippet>
+
+    <p>
+        The <code>Provider</code> accepts the store as property and makes it available via props to all child components.
+    </p>
+
+    <h2 id="binding-react-and-redux"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#binding-react-and-redux" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>Binding React and Redux</h2>
+
+    <p>In order for our File View to be updated when the store changes we need to bind it.</p>
+
+    <p>This is achieved via the <code>connect</code> function provided by the react-redux project.</p>
+
+<snippet class="ng-isolate-scope"><pre><code><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span>Component<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>connect<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-redux"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>bindActionCreators<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">FileView</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">/******* Warning, not a real implementation of render(), eg no html! */</span>
+        <span class="token comment">/******* The proper render method is given later. */</span>
+
+        <span class="token comment">// an immutable copy of the file state is accessed using:</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>files<span class="token punctuation">;</span>
+
+        <span class="token comment">// the following actions can be dispatched to the store:</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>actions<span class="token punctuation">.</span><span class="token function">newFile</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>actions<span class="token punctuation">.</span><span class="token function">deleteFiles</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// map files to this.props from the store state</span>
+<span class="token keyword">const</span> <span class="token function-variable function">mapStateToProps</span> <span class="token operator">=</span> <span class="token punctuation">(</span>state<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+    files<span class="token punctuation">:</span> state<span class="token punctuation">.</span>files
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// bind our actions to this.props</span>
+<span class="token keyword">const</span> <span class="token function-variable function">mapDispatchToProps</span> <span class="token operator">=</span> <span class="token punctuation">(</span>dispatch<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+    actions<span class="token punctuation">:</span> <span class="token function">bindActionCreators</span><span class="token punctuation">(</span>actions<span class="token punctuation">,</span> dispatch<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// connect our component to the redux store</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">connect</span><span class="token punctuation">(</span>mapStateToProps<span class="token punctuation">,</span> mapDispatchToProps<span class="token punctuation">)</span><span class="token punctuation">(</span>FileView<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></snippet>
+    <p>
+        In the code above we pass two functions to <code>connect</code> to map the required state (mapStateToProps) and
+        actions (mapDispatchToProps). When binding our actions we are using the <code>bindActionCreators</code> utility
+        which wraps our action creators into a <code>dispatch</code> call.
+    </p>
+
+    <p>
+        Now that our stateless <code>FileView</code> component is connected to our Redux store, whenever the file
+        state in the store changes, our component will re-render with the latest file state available in
+        <code>this.props.files</code>.
+    </p>
+
+    <note><div class="note"><ng-transclude>Bindings exist for most major javascript frameworks so Redux is not limited to React applications.</ng-transclude></div></note>
+
+    <h2 id="adding-the-data-table"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#adding-the-data-table" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>Adding the Data Table</h2>
+
+    <p>
+        Now that the Redux store is now connected to our stateless React component, all that remains is to implement the
+        view, which just consists of the ag-Grid Data Table in our File View.
+    </p>
+
+    <p>
+       Before discussing the grid features in our File View, here are all of the grid options we are using:
+    </p>
+
+<snippet language="jsx" class="ng-isolate-scope"><pre><code><span class="token comment">// FileView.jsx</span>
+
+<span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ag-theme-fresh<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token operator">&lt;</span>AgGridReact
+                <span class="token comment">// provide column definitions</span>
+                columnDefs<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>colDefs<span class="token punctuation">}</span>
+                <span class="token comment">// specify auto group column definition</span>
+                autoGroupColumnDef<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>autoGroupColumnDef<span class="token punctuation">}</span>
+                <span class="token comment">// row data provided via props from the file store</span>
+                rowData<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>files<span class="token punctuation">}</span>
+                <span class="token comment">// expand groups by default</span>
+                groupDefaultExpanded<span class="token operator">=</span><span class="token punctuation">{</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">}</span>
+                <span class="token comment">// provide context menu callback</span>
+                getContextMenuItems<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>getContextMenuItems<span class="token punctuation">}</span>
+                <span class="token comment">// enable delta updates</span>
+                deltaRowDataMode<span class="token operator">=</span><span class="token punctuation">{</span><span class="token boolean">true</span><span class="token punctuation">}</span>
+                <span class="token comment">// return id required for delta updates</span>
+                getRowNodeId<span class="token operator">=</span><span class="token punctuation">{</span>data <span class="token operator">=&gt;</span> data<span class="token punctuation">.</span>id<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>AgGridReact</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre></snippet>
+
+    <h2 id="row-grouping"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#row-grouping" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>Row Grouping</h2>
+
+    <p>To keep our File View example simple, we'll let the grid manage row grouping. This is achieved via the following
+       configuration:
+    </p>
+
+<snippet class="ng-isolate-scope"><pre><code>colDefs <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>field<span class="token punctuation">:</span> <span class="token string">"file"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>field<span class="token punctuation">:</span> <span class="token string">"folder"</span><span class="token punctuation">,</span> rowGroup<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> hide<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>field<span class="token punctuation">:</span> <span class="token string">"dateModified"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>field<span class="token punctuation">:</span> <span class="token string">"size"</span><span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+autoGroupColumnDef <span class="token operator">=</span> <span class="token punctuation">{</span>
+    headerName<span class="token punctuation">:</span> <span class="token string">"Files"</span><span class="token punctuation">,</span>
+    sort<span class="token punctuation">:</span> <span class="token string">'asc'</span><span class="token punctuation">,</span>
+    cellRendererParams<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        suppressCount<span class="token punctuation">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></snippet>
+
+    <p>
+        Here we are grouping files by folder with <code>rowGroup: true</code> on the folder column definition. We
+        also override some of the defaults on our auto group column through the <code>autoGroupColumnDef</code> property.
+    </p>
+
+    <p>
+        For more details see our documentation on <a href="https://www.ag-grid.com/javascript-grid-grouping/">Row Grouping</a>.
+    </p>
+
+    <h2 id="row-data-updates"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#row-data-updates" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>Row Data Updates</h2>
+    <p>
+        The initial file state along with all subsequent state updates will be provided to the grid component via
+        <code>rowData={this.props.files}</code> from our Redux file store.
+    </p>
+
+    <p>
+        This means the grid does not change the state of the files internally but instead receives the new state from
+        the Redux store!
+    </p>
+
+    <h2 id="context-menu-actions"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#context-menu-actions" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>Context Menu Actions</h2>
+    <p>
+        As shown above, <code>getContextMenuItems={this.getContextMenuItems}</code> supplies a function to the grid to
+        retrieve the context menu items. Here is the implementation:
+    </p>
+
+<snippet class="ng-isolate-scope"><pre><code><span class="token function-variable function">getContextMenuItems</span> <span class="token operator">=</span> <span class="token punctuation">(</span>params<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> folderActions <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">"New File"</span><span class="token punctuation">,</span>
+        action<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>actions<span class="token punctuation">.</span><span class="token function">newFile</span><span class="token punctuation">(</span>params<span class="token punctuation">.</span>node<span class="token punctuation">.</span>key<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">const</span> fileActions <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">"Delete File"</span><span class="token punctuation">,</span>
+        action<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>actions<span class="token punctuation">.</span><span class="token function">deleteFile</span><span class="token punctuation">(</span>params<span class="token punctuation">.</span>node<span class="token punctuation">.</span>data<span class="token punctuation">.</span>id<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> params<span class="token punctuation">.</span>node<span class="token punctuation">.</span>group <span class="token operator">?</span> folderActions <span class="token punctuation">:</span> fileActions<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></snippet>
+
+    <p>
+        Notice that we are simply dispatching actions to the Redux store here. For example,
+        when the new file menu item is selected: <code>action: () =&gt; this.props.actions.newFile(folder)</code>.
+    </p>
+
+    <p>
+        It is important to note that nothing will happen inside the grid when a menu item is selected until the Redux
+        store triggers a re-render of the grid component with the updated state.
+    </p>
+
+    <p>
+        For more details see our documentation on <a href="https://www.ag-grid.com/javascript-grid-context-menu/">Context Menu</a>.
+    </p>
+
+    <h2 id="delta-updates"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#delta-updates" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>Delta Row Updates</h2>
+    <p>
+        One consequence of using Redux is that when part of the state is updated in the store, the entire state is replaced
+        with a new version. Delta Row Updates is designed to work specifically with immutable stores such as Redux to ensure
+        only the rows that have been updated will be re-rendered inside the grid.
+    </p>
+    <p>
+        The File View enables this feature using: <code>deltaRowDataMode={true}</code>, along with a required row id
+        using: <code>getRowNodeId={data =&gt; data.id}</code>.
+    </p>
+
+    <p>
+        This feature can lead to noticeable performance improvements in applications which contain alot of row data.
+        For more details see our documentation on <a href="https://www.ag-grid.com/javascript-grid-data-update/#delta-row-data">Delta Row Updates</a>.
+    </p>
+
+    <h2 id="demo-redux-file-view"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#demo-redux-file-view" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>Demo - Redux File View</h2>
+
+    <p> Now we are ready to enjoy the fruits of our labour! The completed Redux File View with source code is shown
+        below. In this example you can:
+    </p>
+
+    <ul class="content">
+        <li><b>Folder 'Right Click':</b> reveals option to add a new file under the selected folder.</li>
+        <li><b>File 'Right Click':</b> reveals option to delete the selected file.</li>
+        <li><b>'Reload Component' button:</b> unmounts and then re-mounts the File View component. Notice that
+            state is preserved via our Redux file store!</li>
+    </ul>
+
+        <example-runner config="{&quot;type&quot;:&quot;react&quot;,&quot;name&quot;:&quot;redux-file-view&quot;,&quot;section&quot;:&quot;react-redux-integration-pt1&quot;,&quot;types&quot;:{&quot;react&quot;:{&quot;files&quot;:[&quot;index.html&quot;,&quot;FileView.jsx&quot;,&quot;actions\/fileActions.jsx&quot;,&quot;index.jsx&quot;,&quot;middleware\/logger.jsx&quot;,&quot;reducers\/fileReducer.jsx&quot;,&quot;store.jsx&quot;,&quot;styles.css&quot;,&quot;systemjs.config.js&quot;,&quot;types\/fileTypes.jsx&quot;],&quot;boilerplatePath&quot;:&quot;..\/example-runner\/react-boilerplate&quot;,&quot;boilerplateFiles&quot;:[&quot;systemjs.config.js&quot;],&quot;resultUrl&quot;:&quot;..\/example-runner\/react.php?section=react-redux-integration-pt1&amp;example=redux-file-view&amp;fontawesome=1&amp;enterprise=1&amp;grid=%7B%22theme%22%3A%22ag-theme-balham%22%2C%22noStyle%22%3A0%2C%22height%22%3A%22100%25%22%2C%22width%22%3A%22100%25%22%2C%22enterprise%22%3A1%7D&quot;}},&quot;title&quot;:&quot;Redux File View&quot;,&quot;sourcePrefix&quot;:&quot;&quot;,&quot;options&quot;:{&quot;enterprise&quot;:1,&quot;extras&quot;:[&quot;fontawesome&quot;],&quot;skipDirs&quot;:[],&quot;grid&quot;:{&quot;theme&quot;:&quot;ag-theme-balham&quot;,&quot;noStyle&quot;:0,&quot;height&quot;:&quot;100%&quot;,&quot;width&quot;:&quot;100%&quot;,&quot;enterprise&quot;:1}}}" class="ng-isolate-scope"> 
+        <div ng-class="[&quot;example-runner&quot;]" class="example-runner">
+
+        <!-- ngIf: $ctrl.showFrameworksDropdown -->
+
+
+    <div class="example-wrapper">
+        <ul role="tablist" class="primary">
+            <li class="title">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#example-redux-file-view" title="link to Redux File View" id="example-redux-file-view" class="ng-binding"> <i class="fa fa-link" aria-hidden="true"></i> Redux File View </a>
+            </li>
+
+            <example-tab value="&#39;result&#39;" current-value="$ctrl.selectedTab" title="&#39;Result&#39;" tooltip="&#39;Live Result of the Example&#39;" icon="&#39;fa-play&#39;" on-click="$ctrl.selectedTab = &#39;result&#39;" class="ng-isolate-scope">
+    <li role="presentation" ng-class="{ active: $ctrl.currentValue == $ctrl.value }" class="active">
+            <a role="tab" ng-click="$ctrl.onClick(); $event.preventDefault()" href="https://www.ag-grid.com/react-redux-integration-pt1/#" title="Live Result of the Example" class="ng-binding">
+            <i ng-class="[&#39;fa&#39;, $ctrl.icon]" aria-hidden="true" class="fa fa-play"></i> Result
+        </a>
+    </li>
+
+    </example-tab>
+
+            <example-tab value="&#39;code&#39;" current-value="$ctrl.selectedTab" title="&#39;Code&#39;" tooltip="&#39;Examine Example Source Code&#39;" icon="&#39;fa-code&#39;" on-click="$ctrl.selectedTab = &#39;code&#39;" class="ng-isolate-scope">
+    <li role="presentation" ng-class="{ active: $ctrl.currentValue == $ctrl.value }">
+            <a role="tab" ng-click="$ctrl.onClick(); $event.preventDefault()" href="https://www.ag-grid.com/react-redux-integration-pt1/#" title="Examine Example Source Code" class="ng-binding">
+            <i ng-class="[&#39;fa&#39;, $ctrl.icon]" aria-hidden="true" class="fa fa-code"></i> Code
+        </a>
+    </li>
+
+    </example-tab>
+
+
+            <li role="presentation">
+                <a role="tab" ng-href="../example-runner/react.php?section=react-redux-integration-pt1&amp;example=redux-file-view&amp;fontawesome=1&amp;enterprise=1&amp;grid=%7B%22theme%22%3A%22ag-theme-balham%22%2C%22noStyle%22%3A0%2C%22height%22%3A%22100%25%22%2C%22width%22%3A%22100%25%22%2C%22enterprise%22%3A1%7D" target="_blank" title="Open Example in New Tab" href="https://www.ag-grid.com/example-runner/react.php?section=react-redux-integration-pt1&amp;example=redux-file-view&amp;fontawesome=1&amp;enterprise=1&amp;grid=%7B%22theme%22%3A%22ag-theme-balham%22%2C%22noStyle%22%3A0%2C%22height%22%3A%22100%25%22%2C%22width%22%3A%22100%25%22%2C%22enterprise%22%3A1%7D">
+                    <i class="fa fa-arrows-alt" aria-hidden="true"></i> New Tab
+                </a>
+            </li>
+
+            <example-tab ng-hide="$ctrl.noPlunker" value="&#39;plunker&#39;" current-value="$ctrl.selectedTab" title="&#39;Plunker&#39;" tooltip="&#39;Open Example in Plunker&#39;" icon="&#39;fa-external-link&#39;" on-click="$ctrl.openPlunker($event); $event.preventDefault()" class="ng-isolate-scope">
+    <li role="presentation" ng-class="{ active: $ctrl.currentValue == $ctrl.value }">
+            <a role="tab" ng-click="$ctrl.onClick(); $event.preventDefault()" href="https://www.ag-grid.com/react-redux-integration-pt1/#" title="Open Example in Plunker" class="ng-binding">
+            <i ng-class="[&#39;fa&#39;, $ctrl.icon]" aria-hidden="true" class="fa fa-external-link"></i> Plunker
+        </a>
+    </li>
+
+    </example-tab>
+
+        </ul>  
+
+        <!-- ngIf: !$ctrl.ready -->
+
+        <!-- ngIf: $ctrl.ready --><div class="tab-contents ng-scope" ng-if="$ctrl.ready">
+            <div ng-show="$ctrl.selectedTab == &#39;result&#39;" role="tabpanel" class="result">
+                <!-- ngIf: $ctrl.visible --><iframe ng-if="$ctrl.visible" ng-src="../example-runner/react.php?section=react-redux-integration-pt1&amp;example=redux-file-view&amp;fontawesome=1&amp;enterprise=1&amp;grid=%7B%22theme%22%3A%22ag-theme-balham%22%2C%22noStyle%22%3A0%2C%22height%22%3A%22100%25%22%2C%22width%22%3A%22100%25%22%2C%22enterprise%22%3A1%7D" ng-style="$ctrl.iframeStyle" seamless="true" class="ng-scope" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/react.html"></iframe><!-- end ngIf: $ctrl.visible -->
+                <div ng-show="!$ctrl.visible" class="iframe-placeholder ng-hide" ng-style="$ctrl.iframeStyle">
+                    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                </div>
+            </div>
+
+            <!-- ngIf: $ctrl.selectedTab == 'code' -->
+        </div><!-- end ngIf: $ctrl.ready -->
+
+        </div>
+    </div>
+    </example-runner>
+    <h2 id="conclusion"><a class="anchorjs-link " href="https://www.ag-grid.com/react-redux-integration-pt1/#conclusion" aria-label="Anchor" data-anchorjs-icon="" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1em; line-height: inherit; font-family: anchorjs-icons; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>Conclusion</h2>
+
+    <p>
+        While implementing the Redux File View, we have demonstrated how we can move local state out of our components,
+        along with all the associated state operations, to a Redux state container. This led to a nice separation of
+        concerns, allowing our view component to focus on presentation detail.
+    </p>
+
+    <p>
+        In this example we just touched on a few grid features to keep the example simple. These features included:
+    </p>
+
+    <ul>
+        <li>Row Grouping</li>
+        <li>Delta Row Updates</li>
+        <li>Custom Context Menu</li>
+    </ul>
+
+    <p>
+        Next up in <a href="https://www.ag-grid.com/react-redux-integration-pt2/">Redux Integration Part 2</a> we take things further and
+        implement a feature rich File Browser which builds upon this File View example.
+    </p>
+
+        </section>
+        
+        <aside id="doc-nav"><ul><li class="level-1">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#redux-integration" class="">
+        Redux Integration - Part 1
+    </a>
+            </li><li class="level-2">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#do-i-need-redux" class="">Do I need Redux?</a>
+            </li><li class="level-2">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#redux-architecture" class="current-section">Redux Architecture</a>
+            </li><li class="level-2">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#creating-redux-file-store" class="">Creating our Redux File Store</a>
+            </li><li class="level-2">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#adding-provider-component" class="">Adding the Provider Component</a>
+            </li><li class="level-2">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#binding-react-and-redux" class="">Binding React and Redux</a>
+            </li><li class="level-2">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#adding-the-data-table" class="">Adding the Data Table</a>
+            </li><li class="level-2">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#row-grouping" class="">Row Grouping</a>
+            </li><li class="level-2">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#row-data-updates" class="">Row Data Updates</a>
+            </li><li class="level-2">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#context-menu-actions" class="">Context Menu Actions</a>
+            </li><li class="level-2">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#delta-updates" class="">Delta Row Updates</a>
+            </li><li class="level-2">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#demo-redux-file-view" class="">Demo - Redux File View</a>
+            </li><li class="level-2">
+                <a href="https://www.ag-grid.com/react-redux-integration-pt1/#conclusion">Conclusion</a>
+            </li></ul></aside>
+    </div>
+</div>
+
+<footer id="site-footer">
+    <div>
+        <div>
+            <h5>Documentation</h5>
+            <ul>
+                <li><a href="https://www.ag-grid.com/javascript-grid-getting-started/">Getting Started</a></li>
+                <li><a href="https://www.ag-grid.com/ag-grid-changelog/">Changelog</a></li>
+                <li><a href="https://www.ag-grid.com/ag-grid-pipeline/">Pipeline</a></li>
+                <li><a href="https://www.ag-grid.com/archive/">Documentation Archive</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h5>Support &amp; Community</h5>
+            <ul>
+                <li><a href="http://stackoverflow.com/questions/tagged/ag-grid">Stack Overflow</a></li>
+                <li><a href="https://www.ag-grid.com/license-pricing.php">License &amp; Pricing</a></li>
+                <li><a href="https://ag-grid.zendesk.com/">Support via Zendesk</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5>The Company</h5>
+            <ul>
+                <li><a href="https://www.ag-grid.com/about.php">About</a></li>
+                <li><a href="https://www.ag-grid.com/about.php#team">Team</a></li>
+                <li><a href="https://medium.com/ag-grid">Blog (Medium)</a></li>
+                <li><a href="https://www.ag-grid.com/testimonials.php">Testimonials</a></li>
+                <li><a href="https://www.ag-grid.com/privacy.php">Privacy Policy</a></li><li>
+                  </li><li><a href="https://www.ag-grid.com/cookies.php">Cookies Policy</a></li><li>
+            </li></ul>
+        </div>
+
+
+
+        <div>
+            <ul>
+                <li><span></span></li>
+                                <li><iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-follow-button twitter-follow-button-rendered" style="position: static; visibility: visible; width: 206px; height: 20px;" title="Twitter Follow Button" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/follow_button.e3b990b7e531827c037f99a1729ae5db.en.html" data-screen-name="ag_grid"></iframe></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="copy">
+        <div>ag-Grid Limited registered in the United Kingdom. Company No. 07318192.</div> 
+        <div>© ag-Grid Ltd. 2015-2018</div>
+    </div>
+</footer>
+
+<script async="" defer="" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/widgets.js"></script>
+<script async="" defer="" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/buttons.js"></script>
+
+
+<div id="cookie-warning" style="display: none">
+<div style="margin-bottom:5px">
+    <p> <font size="3">
+    This website uses cookies to ensure you get the best experience on our website. This enables us to understand how you use the site and track any patterns with regards how you are using our website. By using our website you consent to all cookies in accordance with our Cookie Policy.</font></p><font size="3">
+
+  <a style="margin-left: 20px!important" class="btn btn-primary" id="cookie-accept">OK</a>
+  <a style="margin-left:-25px!important" href="https://www.ag-grid.com/cookies.php" class="btn btn-primary" id="read-more">Read More</a> 
+
+
+
+<script src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/webfont.js"></script>
+<script>
+  WebFont.load({
+    google: {
+      families: ['Roboto:300,400,500,900']
+    }
+  });
+</script><script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-60553231-2', 'auto');
+    ga('send', 'pageview');
+    ga('set', 'anonymizeIp', true);
+
+    // workaround script for Google Site Search
+    _gaq = {}; 
+    _gaq.push = function () { 
+        ga('send', 'pageview', arguments[0][1]); 
+    };
+</script>
+
+<img style="width: 1px; height: 1px; position: fixed; top: 0px; left: 0px;" height="1px" width="1px" alt="" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/saved_resource">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TW77RR3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) --><script src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/angular.min.js" defer=""></script>
+<script src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/angular-cookies.min.js" defer=""></script>
+<script src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/algoliasearch.min.js" defer=""></script>
+<script src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/autocomplete.min.js" defer=""></script>
+
+<script src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/documentation.js" defer=""></script>
+<script src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/docs.js" defer=""></script>
+
+</font></div></div><iframe scrolling="no" frameborder="0" allowtransparency="true" src="./React Redux Integration_ Part 1 of a detailed guide from ag-Grid_files/widget_iframe.e3b990b7e531827c037f99a1729ae5db.html" title="Twitter settings iframe" style="display: none;"></iframe><div id="wpsn-container" class="wpsn-container" style="position: absolute; top: 0px; left: 0px;"><span class="wpsn-preloadfont" style="visibility:hidden">a</span></div><div id="wpsn-popup-container" class="wpsn-popup-container" style="position: fixed; top: 0px; left: 0px; display: none;"></div><script type="text/javascript" id="">window.smartlook||function(a){var b=smartlook=function(){b.api.push(arguments)},c=a.getElementsByTagName("head")[0];a=a.createElement("script");b.api=[];a.async=!0;a.type="text/javascript";a.charset="utf-8";a.src="https://rec.smartlook.com/recorder.js";c.appendChild(a)}(document);smartlook("init","48477e40920985e903089707199c0df53e883502");</script><div id="*dRs+&amp;%Q1545041794796"></div></body></html>
