@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 
 // *****************************************************************
 // ******************* without destructuring ************************
@@ -22,82 +22,6 @@ import React, { useState, useEffect } from 'react';
 //         </React.Fragment>
 //     )
 // }
-
-
-// ******************************************************************
-// ********************* with destructuring *************************
-// ************* using separate states (recommended) ****************
-// ******************************************************************
-
-
-const todo = props => {
-    // RULES:
-    // you must only call hooks ('useState', 'useEffect' etc) at the top level of your functional component at the root level (no nesting, for loops, if statements etc)
-
-    // note: you could manage both of these states in one 'useState' call but its recommended to manage them separately (as its cleaner)
-    // initial state is an empty string
-    const [userInput, setUserInput] = useState('');
-    // initial state is an empty array
-    const [toDoList, setToDoList] = useState([]);
-
-    // pass a function that should be executed when the component runs for the first time and after ever render cycle
-    // the reason you should do http requests inside useEffect is because it will then be executed at the right time in reacts render cycle - avoiding any unwanted effects
-    useEffect(() => {
-        fetch('https://react-usestate.firebaseio.com/todos.json')
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                // this will cause an infinite loop as were updating the state, then useEffect will be called again ...
-                setToDoList(data);
-            })
-            .catch(err => console.log(err));
-
-        // optional 
-        // 
-
-        // optional
-        // the second argument that useEffect takes is an array of values. useEffect will only then run when any of those values change e.g. [userInput] - similar to componentDidUpdate with an if-check
-        // if you want to only run useEffect on mounting then pass an empty array - the array is not bound to a variable, so it will never change, so it will only run once - similar to componentDidMount
-        // if you want useEffect to run on every render cycle, then dont pass a second argument
-    }, []);
-
-    const inputChangeHandler = event => {
-        setUserInput(event.target.value);
-    }
-    const buttonHandler = () => {
-        const updatedList = [...toDoList, userInput];
-        setToDoList(updatedList);
-        postData(updatedList)
-        setUserInput('');
-    }
-
-    const postData = data => {
-        // remember to add /node.json to the firebase URL
-        fetch('https://react-usestate.firebaseio.com/todos.json', {
-            method: 'PUT',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .catch(err => console.log(err));
-    }
-
-    return (
-        <React.Fragment>
-            <input type="text" placeholder="Todo" value={userInput} onChange={inputChangeHandler} />
-            <button type="button" onClick={buttonHandler}>Add</button>
-            <ul>
-                {toDoList.map(todo => <li key={todo}>{todo}</li>)}
-            </ul>
-        </React.Fragment>
-    )
-}
-
-export default todo;
 
 
 // ******************************************************************
@@ -139,3 +63,163 @@ export default todo;
 // }
 
 // export default todo;
+
+
+// ******************************************************************
+// ********************* with destructuring *************************
+// ************* using separate states (recommended) ****************
+// ********************** using useState ****************************
+// ******************************************************************
+
+// const todo = props => {
+//     // RULES:
+//     // you must only call hooks ('useState', 'useEffect' etc) at the top level of your functional component at the root level (no nesting, for loops, if statements etc)
+
+//     // note: you could manage both of these states in one 'useState' call but its recommended to manage them separately (as its cleaner)
+//     // initial state is an empty string
+//     const [userInput, setUserInput] = useState('');
+//     // initial state is an empty array
+//     const [toDoList, setToDoList] = useState([]);
+
+//     // pass a function that should be executed when the component runs for the first time and after ever render cycle
+//     // the reason you should do http requests inside useEffect is because it will then be executed at the right time in reacts render cycle - avoiding any unwanted effects
+//     useEffect(() => {
+//         fetch('https://react-usestate.firebaseio.com/todos.json')
+//             .then(res => res.json())
+//             .then(data => {
+//                 console.log(data)
+//                 // this will cause an infinite loop as were updating the state, then useEffect will be called again ...
+//                 setToDoList(data);
+//             })
+//             .catch(err => console.log(err));
+
+//         // optional 
+//         // for cleanup work pass a return statement with a function- similar to componentDidUnmount
+//         // react will execute the function as a cleanup before it calls useEffect again or when the component unmounts
+//         // useful for removing event listeners etc
+//         return () => {
+//             console.log('cleanup');
+//         }
+
+//         // optional
+//         // the second argument that useEffect takes is an array of values. useEffect will only then run when any of those values change e.g. [userInput] - similar to componentDidUpdate with an if-check
+//         // if you want to only run useEffect on mounting then pass an empty array - the array is not bound to a variable, so it will never change, so it will only run once - similar to componentDidMount
+//         // if you want useEffect to run on every render cycle, then dont pass a second argument
+//     }, []);
+
+//     const inputChangeHandler = event => {
+//         setUserInput(event.target.value);
+//     }
+//     const buttonHandler = () => {
+//         const updatedList = [...toDoList, userInput];
+//         setToDoList(updatedList);
+//         postData(updatedList)
+//         setUserInput('');
+//     }
+
+//     const postData = data => {
+//         // remember to add /node.json to the firebase URL
+//         fetch('https://react-usestate.firebaseio.com/todos.json', {
+//             method: 'PUT',
+//             mode: 'cors',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify(data)
+//         })
+//             .then(res => res.json())
+//             .then(data => console.log(data))
+//             .catch(err => console.log(err));
+//     }
+
+//     return (
+//         <React.Fragment>
+//             <input type="text" placeholder="Todo" value={userInput} onChange={inputChangeHandler} />
+//             <button type="button" onClick={buttonHandler}>Add</button>
+//             <ul>
+//                 {toDoList.map(todo => <li key={todo}>{todo}</li>)}
+//             </ul>
+//         </React.Fragment>
+//     )
+// }
+
+// export default todo;
+
+
+// ******************************************************************
+// ********************** using useReducer **************************
+// ******************************************************************
+
+const todo = props => {
+    const [userInput, setUserInput] = useState('');
+    // const [toDoList, setToDoList] = useState([]);
+
+    // helps us manipulate state conveniently
+    const todoListReducer = (state, action) => {
+        switch (action.type) {
+            case 'SET':
+                return action.payload;
+            case 'ADD':
+                return state.concat(action.payload);
+            case 'REMOVE':
+                return state.filter(todo => todo !== action.payload);
+            default:
+                return state;
+        }
+    }
+
+    // arguments are reducer, initial state, (optional) initial action
+    const [toDoList, dispatch] = useReducer(todoListReducer, []);
+
+    useEffect(() => {
+        fetch('https://react-usestate.firebaseio.com/todos.json')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                // changing to match useReducer
+                dispatch({ type: 'SET', payload: data });
+            })
+            .catch(err => console.log(err));
+
+        return () => {
+            console.log('cleanup');
+        }
+
+    }, []);
+
+    const inputChangeHandler = event => {
+        setUserInput(event.target.value);
+    }
+    const buttonHandler = () => {
+        const updatedList = [...toDoList, userInput];
+        dispatch({ type: 'ADD', payload: updatedList });
+        postData(updatedList)
+        setUserInput('');
+    }
+
+    const postData = data => {
+        fetch('https://react-usestate.firebaseio.com/todos.json', {
+            method: 'PUT',
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err));
+    }
+
+    const toDoRemoveHandler = toDo => {
+        dispatch({ type: 'REMOVE', payload: toDo });
+    }
+
+    return (
+        <React.Fragment>
+            <input type="text" placeholder="Todo" value={userInput} onChange={inputChangeHandler} />
+            <button type="button" onClick={buttonHandler}>Add</button>
+            <ul>
+                {toDoList.map(todo => <li key={todo} onClick={toDoRemoveHandler.bind(this, todo)}>{todo}</li>)}
+            </ul>
+        </React.Fragment>
+    )
+}
+
+export default todo;
