@@ -1,1 +1,0 @@
-css modules allow us to scope css declarations
