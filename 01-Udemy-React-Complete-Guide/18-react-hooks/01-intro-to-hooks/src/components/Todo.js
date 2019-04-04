@@ -32,7 +32,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 // const todo = props => {
 
 //     const [myState, setMyState] = useState({
-//         userInput: '',
+//         toDoItem: '',
 //         toDoList: []
 //     })
 
@@ -40,21 +40,21 @@ import React, { useState, useEffect, useReducer } from 'react';
 //         // the state passed is NOT merged with the current state, it completely replaces the state,
 //         // for this reason, it's definitely better to separate out the state into multiple 'useState' calls
 //         setMyState({
-//             userInput: event.target.value,
+//             toDoItem: event.target.value,
 //             toDoList: myState.toDoList
 //         })
 //     }
-//     const buttonHandler = () => {
+//     const toDoAddHandler = () => {
 //         setMyState({
-//             userInput: myState.userInput,
-//             toDoList: [...myState.toDoList, myState.userInput]
+//             toDoItem: myState.toDoItem,
+//             toDoList: [...myState.toDoList, myState.toDoItem]
 //         });
 //     }
 
 //     return (
 //         <React.Fragment>
-//             <input type="text" placeholder="Todo" value={myState.userInput} onChange={inputChangeHandler} />
-//             <button type="button" onClick={buttonHandler}>Add</button>
+//             <input type="text" placeholder="Todo" value={myState.toDoItem} onChange={inputChangeHandler} />
+//             <button type="button" onClick={toDoAddHandler}>Add</button>
 //             <ul>
 //                 {myState.toDoList.map(todo => <li key={todo}>{todo}</li>)}
 //             </ul>
@@ -77,9 +77,10 @@ import React, { useState, useEffect, useReducer } from 'react';
 
 //     // note: you could manage both of these states in one 'useState' call but its recommended to manage them separately (as its cleaner)
 //     // initial state is an empty string
-//     const [userInput, setUserInput] = useState('');
+//     const [toDoItem, setToDoItem] = useState('');
 //     // initial state is an empty array
 //     const [toDoList, setToDoList] = useState([]);
+//     const [submittedToDo, setSubmittedToDo] = useState(null)
 
 //     // pass a function that should be executed when the component runs for the first time and after ever render cycle
 //     // the reason you should do http requests inside useEffect is because it will then be executed at the right time in reacts render cycle - avoiding any unwanted effects
@@ -87,9 +88,12 @@ import React, { useState, useEffect, useReducer } from 'react';
 //         fetch('https://react-usestate.firebaseio.com/todos.json')
 //             .then(res => res.json())
 //             .then(data => {
-//                 console.log(data)
-//                 // this will cause an infinite loop as were updating the state, then useEffect will be called again ...
-//                 setToDoList(data);
+//                 const fetchedToDoList = Object.keys(data).map(key => ({
+//                     id: key,
+//                     name: data[key].name
+//                 }));
+//                 // without passing a second paramater to useEffect, this will cause an infinite loop, as calling setToDoList will cause a re-render
+//                 setToDoList(fetchedToDoList);
 //             })
 //             .catch(err => console.log(err));
 
@@ -102,40 +106,51 @@ import React, { useState, useEffect, useReducer } from 'react';
 //         }
 
 //         // optional
-//         // the second argument that useEffect takes is an array of values. useEffect will only then run when any of those values change e.g. [userInput] - similar to componentDidUpdate with an if-check
+//         // the second argument that useEffect takes is an array of values. useEffect will only then run when any of those values change e.g. [toDoItem] - similar to componentDidUpdate with an if-check
 //         // if you want to only run useEffect on mounting then pass an empty array - the array is not bound to a variable, so it will never change, so it will only run once - similar to componentDidMount
 //         // if you want useEffect to run on every render cycle, then dont pass a second argument
 //     }, []);
 
-//     const inputChangeHandler = event => {
-//         setUserInput(event.target.value);
-//     }
-//     const buttonHandler = () => {
-//         const updatedList = [...toDoList, userInput];
-//         setToDoList(updatedList);
-//         postData(updatedList)
-//         setUserInput('');
-//     }
+//     useEffect(() => {
+//         if (!submittedToDo) {
+//             // we dont want any effect when executing on first render 
+//             return
+//         }
+//         // now this will run each time we change submittedToDo
+//         setToDoList(toDoList.concat(submittedToDo));
+//     }, [submittedToDo])
 
-//     const postData = data => {
+//     const inputChangeHandler = event => {
+//         setToDoItem(event.target.value);
+//     }
+//     const toDoAddHandler = () => {
 //         // remember to add /node.json to the firebase URL
 //         fetch('https://react-usestate.firebaseio.com/todos.json', {
-//             method: 'PUT',
+//             method: 'POST',
 //             mode: 'cors',
 //             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify(data)
+//             body: JSON.stringify({ name: toDoItem })
 //         })
 //             .then(res => res.json())
-//             .then(data => console.log(data))
+//             .then(data => {
+//                 setTimeout(() => {
+//                     // this setTimeout can cause the data to update wrong, if the click handler is invoked twice, then two fetch requests are sent out and 
+//                     // return two copies of the array in the database with each item separately e.g. array1: ['foo','bar','baz'] and array2: ['foo','bar','buz'] 
+//                     // what we want is ['foo','bar','baz', 'buz']
+//                     setSubmittedToDo({ id: data.name, name: toDoItem });
+//                 }, 3000);
+//             })
 //             .catch(err => console.log(err));
+
+//         setToDoItem('');
 //     }
 
 //     return (
 //         <React.Fragment>
-//             <input type="text" placeholder="Todo" value={userInput} onChange={inputChangeHandler} />
-//             <button type="button" onClick={buttonHandler}>Add</button>
+//             <input type="text" placeholder="Todo" value={toDoItem} onChange={inputChangeHandler} />
+//             <button type="button" onClick={toDoAddHandler}>Add</button>
 //             <ul>
-//                 {toDoList.map(todo => <li key={todo}>{todo}</li>)}
+//                 {toDoList.map(todo => <li key={todo.id}>{todo.name}</li>)}
 //             </ul>
 //         </React.Fragment>
 //     )
@@ -148,9 +163,12 @@ import React, { useState, useEffect, useReducer } from 'react';
 // ********************** using useReducer **************************
 // ******************************************************************
 
+
 const todo = props => {
-    const [userInput, setUserInput] = useState('');
+    const [toDoItem, setToDoItem] = useState('');
+    // now using useReducer
     // const [toDoList, setToDoList] = useState([]);
+    const [submittedToDo, setSubmittedToDo] = useState(null);
 
     // helps us manipulate state conveniently
     const todoListReducer = (state, action) => {
@@ -158,65 +176,79 @@ const todo = props => {
             case 'SET':
                 return action.payload;
             case 'ADD':
+                console.log('adding', state.concat(action.payload))
                 return state.concat(action.payload);
             case 'REMOVE':
-                return state.filter(todo => todo !== action.payload);
+                return state.filter(todo => todo.id !== action.payload);
             default:
                 return state;
         }
     }
 
-    // arguments are reducer, initial state, (optional) initial action
+    // arguments are reducer, initial state, initial action (optional)
     const [toDoList, dispatch] = useReducer(todoListReducer, []);
 
     useEffect(() => {
         fetch('https://react-usestate.firebaseio.com/todos.json')
             .then(res => res.json())
             .then(data => {
-                console.log(data)
-                // changing to match useReducer
-                dispatch({ type: 'SET', payload: data });
+                const fetchedToDoList = Object.keys(data).map(key => ({
+                    id: key,
+                    name: data[key].name
+                }));
+                dispatch({ type: 'SET', payload: fetchedToDoList });
+            })
+            .catch(err => console.log(err));
+    }, []);
+
+    useEffect(() => {
+        if (!submittedToDo) {
+            return
+        }
+        dispatch({ type: 'ADD', payload: submittedToDo });
+    }, [submittedToDo]);
+
+    const inputChangeHandler = event => {
+        setToDoItem(event.target.value);
+    }
+    const toDoAddHandler = () => {
+        fetch('https://react-usestate.firebaseio.com/todos.json', {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: toDoItem })
+        })
+            .then(res => res.json())
+            .then(data => {
+                setTimeout(() => {
+                    setSubmittedToDo({ id: data.name, name: toDoItem });
+                }, 3000);
             })
             .catch(err => console.log(err));
 
-        return () => {
-            console.log('cleanup');
-        }
-
-    }, []);
-
-    const inputChangeHandler = event => {
-        setUserInput(event.target.value);
-    }
-    const buttonHandler = () => {
-        const updatedList = [...toDoList, userInput];
-        dispatch({ type: 'ADD', payload: updatedList });
-        postData(updatedList)
-        setUserInput('');
+        setToDoItem('');
     }
 
-    const postData = data => {
-        fetch('https://react-usestate.firebaseio.com/todos.json', {
-            method: 'PUT',
+    const toDoRemoveHandler = toDoId => {
+        fetch(`https://react-usestate.firebaseio.com/todos/${toDoId}.json`, {
+            method: 'DELETE',
             mode: 'cors',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            body: JSON.stringify(toDoId)
         })
-            .then(res => res.json())
-            .then(data => console.log(data))
+            .then(() => {
+                dispatch({ type: 'REMOVE', payload: toDoId });
+            })
             .catch(err => console.log(err));
-    }
 
-    const toDoRemoveHandler = toDo => {
-        dispatch({ type: 'REMOVE', payload: toDo });
     }
 
     return (
         <React.Fragment>
-            <input type="text" placeholder="Todo" value={userInput} onChange={inputChangeHandler} />
-            <button type="button" onClick={buttonHandler}>Add</button>
+            <input type="text" placeholder="Todo" value={toDoItem} onChange={inputChangeHandler} />
+            <button type="button" onClick={toDoAddHandler}>Add</button>
             <ul>
-                {toDoList.map(todo => <li key={todo} onClick={toDoRemoveHandler.bind(this, todo)}>{todo}</li>)}
+                {toDoList.map(todo => <li key={todo.id} onClick={toDoRemoveHandler.bind(this, todo.id)}>{todo.name}</li>)}
             </ul>
         </React.Fragment>
     )
