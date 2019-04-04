@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useRef } from 'react';
 
 // *****************************************************************
 // ******************* without destructuring ************************
@@ -165,10 +165,11 @@ import React, { useState, useEffect, useReducer } from 'react';
 
 
 const todo = props => {
-    const [toDoItem, setToDoItem] = useState('');
     // now using useReducer
     // const [toDoList, setToDoList] = useState([]);
-    const [submittedToDo, setSubmittedToDo] = useState(null);
+    // now using useRef
+    // const [toDoItem, setToDoItem] = useState('');
+    const toDoInputRef = useRef('');
 
     // helps us manipulate state conveniently
     const todoListReducer = (state, action) => {
@@ -201,32 +202,24 @@ const todo = props => {
             .catch(err => console.log(err));
     }, []);
 
-    useEffect(() => {
-        if (!submittedToDo) {
-            return
-        }
-        dispatch({ type: 'ADD', payload: submittedToDo });
-    }, [submittedToDo]);
-
-    const inputChangeHandler = event => {
-        setToDoItem(event.target.value);
-    }
     const toDoAddHandler = () => {
+        const toDoName = toDoInputRef.current.value;
         fetch('https://react-usestate.firebaseio.com/todos.json', {
             method: 'POST',
             mode: 'cors',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: toDoItem })
+            body: JSON.stringify({ name: toDoName })
         })
             .then(res => res.json())
             .then(data => {
                 setTimeout(() => {
-                    setSubmittedToDo({ id: data.name, name: toDoItem });
+                    // useReducer always gives us the latest state, so we dont need that submittedToDo hack
+                    dispatch({ type: 'ADD', payload: { id: data.name, name: toDoName } });
                 }, 3000);
             })
             .catch(err => console.log(err));
 
-        setToDoItem('');
+        toDoInputRef.current.value = ''
     }
 
     const toDoRemoveHandler = toDoId => {
@@ -245,7 +238,7 @@ const todo = props => {
 
     return (
         <React.Fragment>
-            <input type="text" placeholder="Todo" value={toDoItem} onChange={inputChangeHandler} />
+            <input type="text" placeholder="Todo" ref={toDoInputRef} />
             <button type="button" onClick={toDoAddHandler}>Add</button>
             <ul>
                 {toDoList.map(todo => <li key={todo.id} onClick={toDoRemoveHandler.bind(this, todo.id)}>{todo.name}</li>)}
